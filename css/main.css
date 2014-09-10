@@ -285,7 +285,7 @@ strong {
   background-position: 15% center; }
 
 .settings-toggle:after {
-  content: "Settings";
+  content: "Login";
   margin-left: 2.5rem;
   line-height: 3rem;
   font-size: .9rem;

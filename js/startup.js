@@ -13,7 +13,7 @@ s.parentNode.insertBefore(ga, s);
 
 
 require.config({
-  baseUrl: '/js',
+  baseUrl: 'js',
   paths: {
     'underscore': '../bower_components/underscore/underscore',
     'jQuery': '../bower_components/jquery/jquery',

@@ -71,7 +71,7 @@ var BookmarksStorage = function () {
   * Get all chunks with custom tags.
   */
   var enumerateAllCustomTagChunks = function(currentChunk, index, done) {
-    if (currentChunk && currentChunk.n) {
+    if (false && currentChunk && currentChunk.n) {
       index++;
       var key = 't' + index;
       chrome.storage.sync.get(key, function(data) {
@@ -100,9 +100,11 @@ var BookmarksStorage = function () {
   /*
   * Recursive bookmarks traversal (we use folders as tags)
   */
-  var enumerateChildren = function(tree, tags, level, hideTopLevelFolders) {
+  var enumerateChildren = function(tree, tags, level, hideTopLevelFolders)
+  {
     if (tree) {
       _.each(tree, function(c) {
+
           if (!c.url) {
               var t = tags.slice();
               if (c.title && ((!hideTopLevelFolders) || level > 1)) {
@@ -141,7 +143,7 @@ var BookmarksStorage = function () {
     });
   };
 
-  chrome.storage.onChanged.addListener(function(changes, namespace) {
+  /*chrome.storage.onChanged.addListener(function(changes, namespace) {
     for (var key in changes) {
       if (changes.hasOwnProperty(key) && key === 'customTags') {
         customTags = changes[key].newValue;
@@ -150,7 +152,7 @@ var BookmarksStorage = function () {
         }
       }
     }
-  });
+  });*/
 
   /*
   * Get all bookmarks with all custom tags.
@@ -158,13 +160,18 @@ var BookmarksStorage = function () {
   this.getAll = function(callback) {
     bookmarks = {};
     this.loadSettings(function(settings) {
+
       // At first get custom tags and after this start bookmarks traversal.
       enumerateAllCustomTagChunks({n: true}, -1, function() {
-        chrome.bookmarks.getTree(function(tree) {
+      loadBookmarksFromFile(function(tree)//chrome.bookmarks.getTree
+        {
+          console.log("i've come so far");
           enumerateChildren(tree, [], /* level: */ 0, settings.hideTopLevelFolders);
           // Custom tags is legacy storage
           // TODO: remove after couple releases support of customTgs key.
-          chrome.storage.sync.get('customTags', function(data) {
+          callback(_.values(bookmarks), settings);
+
+          /*chrome.storage.sync.get('customTags', function(data) {
             if (data && data.customTags) {
               for (var key in data.customTags) {
                 if (data.customTags.hasOwnProperty(key)) {
@@ -174,12 +181,19 @@ var BookmarksStorage = function () {
               chrome.storage.sync.remove('customTags');
             }
             callback(_.values(bookmarks), settings);
-          });
+          });*/
         });
       });
     });
   };
 
+var loadBookmarksFromFile = function(callback)
+{
+  jQuery.get('bookmarks.json', function(data)
+  {
+      callback(data);
+  });
+};
 
   this.update = function(bookmark, changes) {
     var update = {};  // Prepare update document
@@ -225,28 +239,23 @@ var BookmarksStorage = function () {
    */
   this.setShowThumbnails = function(value, cb) {
     chrome.storage.sync.set({ 'show-thumbnails': value }, cb);
-  };
 
+  };
   /*
    * Get show thumbnails
    */
-  this.loadSettings = function(cb) {
-    chrome.storage.sync.get(
-      [
-        'show-thumbnails',
-        'hide-top-level-folders'
-      ],
-      function(flag) {
-        cb(
-          {
-            showThumbnails: flag['show-thumbnails'] === false ? false : true, // Default value is true.
-            hideTopLevelFolders: flag['hide-top-level-folders'] || false // Default value is false.
-          }
-        );
+  this.loadSettings = function(cb)
+  {
+    cb(
+      {
+        showThumbnails: true, // Default value is true.
+        hideTopLevelFolders: false // Default value is false.
       }
     );
   };
 };
+
+
 
 /*
 * Bookmarks storage factory method.

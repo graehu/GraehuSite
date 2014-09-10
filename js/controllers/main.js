@@ -5,6 +5,7 @@ define(
 ],
 function(_, $) { 'use strict';
 
+
 /*
 * Application controller.
 */
@@ -150,10 +151,13 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
                       })
                       .value();
 
+
       // ARG: improve in future
       // applyTagsAsString(bookmarks);
+      if(!$scope.$$phase) {
+          $scope.$apply();
+      }
 
-      $scope.$apply();
       countItemsPerRow();
     }.bind(this));
   }.bind(this);
@@ -367,4 +371,3 @@ return [
 ];
 
 });
-
