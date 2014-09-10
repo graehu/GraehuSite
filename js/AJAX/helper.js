@@ -60,7 +60,7 @@ function ShowLoginPage()
     {
       url: "php/login.php",
       success: function(evt)
-      {        
+      {
         // $("#LoginArea").replaceWith('<div id="LoginArea"><?php include "../php/login.php";?> </div>');
           $("#LoginArea").replaceWith("<div id='LoginArea'>" + evt + "</div>");
       }});
@@ -74,5 +74,16 @@ function ShowRegPage()
     success:function(evt){
       $("#LoginArea").replaceWith("<div id='LoginArea'>" + evt + "</div>");
       }
+  });
+}
+
+
+function GetUserStatus()
+{
+  $.ajax({
+    url:"php/login.php",
+    data:{functionname:"getUserLoginStatus"},
+    success:function(evt){console.log(evt);},
+    error:function(evt){console.log(evt);}
   });
 }

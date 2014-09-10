@@ -46,7 +46,7 @@
               <input id="hide-folders" class="css-checkbox" type="checkbox" ng-checked="hideTopLevelFolders" />
               <label for="hide-folders" class="css-label">Hide Top-level Folders as Tags</label>
             </div>-->
-            </br> 
+            </br>
             <div class="credits"><p>Screenshots by <a class="important" href="http://snapito.io" target="_blank">Snapito</a></p></div>
           </form>
         </li>
@@ -81,12 +81,18 @@
       </li>
     </ul>
 
+
+
     <ul class="list-bookmarks">
       <li ng-repeat="bookmark in (filteredBookmarks | orderBy:currentOrder.value | limitTo:totalDisplayed)" ng-cloak>
 
         <div class="card" ng-class="{'card-primary': ($index == selectedIndex), 'card-small': !showThumbnails}" ng-click="selectBookmark($index)">
+          <!-- If you're logged in you can edit bookmarks -->
+          <?php if($application->getUserLoginStatus() == 1)
+            echo '<div class="edit-toggle" ng-click="editBookmark(bookmark)"></div>';
+          else
+            echo "";?>;
 
-          <div class="edit-toggle" ng-click="editBookmark(bookmark)"></div>
           <a class="bookmark-link" href="{{bookmark.url}}"></a>
 
           <div class="thumbnail-loading" style="background: white url(images/loader.gif) no-repeat center center;" title="{{bookmark.url}}"></div>

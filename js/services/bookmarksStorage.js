@@ -165,7 +165,6 @@ var BookmarksStorage = function () {
       enumerateAllCustomTagChunks({n: true}, -1, function() {
       loadBookmarksFromFile(function(tree)//chrome.bookmarks.getTree
         {
-          console.log("i've come so far");
           enumerateChildren(tree, [], /* level: */ 0, settings.hideTopLevelFolders);
           // Custom tags is legacy storage
           // TODO: remove after couple releases support of customTgs key.
