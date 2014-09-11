@@ -2,7 +2,6 @@ function LogOut()
 {
   $.ajax({
   url:"php/login.php?action=logout",
-  // url:"partials/main.tpl.php?action=logout",
   data: {},
   success:function(evt)
   {
@@ -27,7 +26,7 @@ function LogIn()
     },
     success:function(evt){
       $("#LoginArea").replaceWith("<div id='LoginArea'>" + evt + "</div>");
-    },
+      }
   });
 }
 function Register()
@@ -54,14 +53,11 @@ function Register()
 }
 function ShowLoginPage()
 {
-  ///DOES NOT WORK
-
   $.ajax(
     {
       url: "php/login.php",
       success: function(evt)
       {
-        // $("#LoginArea").replaceWith('<div id="LoginArea"><?php include "../php/login.php";?> </div>');
           $("#LoginArea").replaceWith("<div id='LoginArea'>" + evt + "</div>");
       }});
 
@@ -76,8 +72,6 @@ function ShowRegPage()
       }
   });
 }
-
-
 function GetUserStatus()
 {
   $.ajax({

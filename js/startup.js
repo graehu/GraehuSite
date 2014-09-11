@@ -1,4 +1,5 @@
 var _gaq = _gaq || [];
+//TODO Update google analytics
 _gaq.push(['_setAccount', 'UA-47679369-1']);
 _gaq.push(['_trackPageview']);
 
