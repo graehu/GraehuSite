@@ -20,7 +20,7 @@ class OneFileLoginApplication
     /**
      * @var string Path of the database file (create this with _install.php)
      */
-    private $db_sqlite_path = "./../users.db";
+    private $db_sqlite_path = "../users.db";
 
     /**
      * @var object Database connection
