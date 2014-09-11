@@ -1,4 +1,4 @@
-<Files "users.db">
-Order Allow,Deny
-Deny from all
-</Files>
+<FilesMatch "users.db|bookmarks.db">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
