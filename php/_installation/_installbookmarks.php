@@ -33,7 +33,7 @@ $query->execute();
 
 $sql = 'CREATE TABLE IF NOT EXISTS `tags` (
         `tag_id` INTEGER PRIMARY KEY,
-       `tag` VARCHAR(16)
+       `tag_name` VARCHAR(16)
        )';
 $query = $db_connection->prepare($sql);
 $query->execute();

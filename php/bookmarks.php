@@ -50,14 +50,98 @@ class bookmarksAccessor
   {
     if ($this->createDatabaseConnection()) {
       echo $this->feedback;
-      $this->getBookMarks();
+      return json_encode($this->getBookMarks());
     }
   }
-
+  public function addDummyValues()
+  {
+    $this->addTag(0, "by me");
+    $this->addTag(1, "by someone");
+    $this->addBookmark(0, 0, "youtube", "www.youtube.com", "21.01.2112");
+    $this->addBookmark(1, 0, "pinterest", "www.pinterest.com", "21.02.2112");
+    $this->addBookmark(2, 1, "google", "www.google.com", "21.03.2112");
+    $this->addBookmarkTag(0, 0);
+    $this->addBookmarkTag(1, 0);
+    $this->addBookmarkTag(1, 1);
+  }
   public function getBookMarksWithTagsInJson()
   {
     if ($this->createDatabaseConnection()) {
-      $this->getBookMarks();
+      return json_encode($this->getBookMarksWithTags());
+    }
+  }
+  private function getTags()
+  {
+    $sql = 'SELECT * FROM tags';
+    $query = $this->db_connection->prepare($sql);
+
+    if($query->execute())
+    {
+      $tags = array();
+      $i = 0;
+      for($entry = $query->fetchObject(); $entry != false; $entry = $query->fetchObject())
+      {
+        $tags[$i] = $entry;
+        $i++;
+      }
+      $tags = array('tags' => $tags);
+      return $tags;
+    }
+    else
+    {
+      return null;
+    }
+  }
+  private function getBookmarksByUserId($user_id)
+  {
+    $sql = 'SELECT * FROM bookmarks WHERE bookmarks.user_id = :user_id';
+    $query = $this->db_connection->prepare($sql);
+
+    $query->bindValue(":user_id", $user_id);
+
+    if($query->execute())
+    {
+      $bookmarks = array();
+      $i = 0;
+      for($entry = $query->fetchObject(); $entry != false; $entry = $query->fetchObject())
+      {
+        $bookmarks[$i] = $entry;
+        $i++;
+      }
+      $bookmarks = array('bookmarks' => $bookmarks);
+      return $bookmarks;
+    }
+    else
+    {
+      return null;
+    }
+  }
+  private function getTagsByBookmarkID($bookmark_id)
+  {
+    $sql = 'SELECT tag_id FROM bookmark_tags WHERE bookmark_tags.bookmark_id = :bookmark_id';
+    $query = $this->db_connection->prepare($sql);
+
+    $query->bindValue(":bookmark_id", $bookmark_id);
+
+    if($query->execute())
+    {
+      $tag_ids = $query->fetchAll(PDO::FETCH_COLUMN);
+      $string = implode(", ",$tag_ids);
+      $sql = 'SELECT tag_name FROM tags WHERE tags.tag_id IN ('.$string.')';
+      $query = $this->db_connection->prepare($sql);
+      if($query->execute())
+      {
+        $tag_names = $query->fetchAll(PDO::FETCH_COLUMN);
+        return  $tag_names;
+      }
+      else
+      {
+        return null;
+      }
+    }
+    else
+    {
+      return null;
     }
   }
 
@@ -65,16 +149,23 @@ class bookmarksAccessor
   {
     $sql = 'SELECT * FROM bookmarks';
     $query = $this->db_connection->prepare($sql);
+
     if($query->execute())
     {
+      $bookmarks = array();
+      $i = 0;
       for($entry = $query->fetchObject(); $entry != false; $entry = $query->fetchObject())
       {
-        echo json_encode($entry);
+        $bookmarks[$i] =  $entry;
+        $i++;
       }
+      $bookmarks = array('bookmarks' => $bookmarks);
+      //echo json_encode($bookmarks);
+      return $bookmarks;
     }
     else
     {
-      echo "fail";
+      return null;
     }
 
   }
@@ -90,16 +181,36 @@ class bookmarksAccessor
     $query = $this->db_connection->prepare($sql);
     if($query->execute())
     {
+      $bookmark_tags = array();
+      $i = 0;
       for($entry = $query->fetchObject(); $entry != false; $entry = $query->fetchObject())
       {
-        echo json_encode($entry);
+        $bookmark_tags[$i] = $entry;
+        $i++;
       }
+      $bookmarks = $this->getBookMarks();
+      $taggedBookmarks = array();
+      for($ii = 0; $ii < sizeof($bookmarks["bookmarks"]); $ii++)
+      {
+        $bookmark = new stdClass;
+        $bookmark->bookmark_id = $bookmarks["bookmarks"][$ii]->bookmark_id;
+        $bookmark->user_id = $bookmarks["bookmarks"][$ii]->user_id;
+        $bookmark->bookmark_title = $bookmarks["bookmarks"][$ii]->bookmark_title;
+        $bookmark->bookmark_url = $bookmarks["bookmarks"][$ii]->bookmark_url;
+        $bookmark->bookmark_date = $bookmarks["bookmarks"][$ii]->bookmark_date;
+        $bookmark->tags = $this->getTagsByBookmarkID($bookmark->bookmark_id);
+        $taggedBookmarks[$ii] = $bookmark;
+      }
+      return $taggedBookmarks;
     }
     else
     {
-      echo "fail!";
+      return null;
     }
   }
+
+  ////DATA BASE ENTRY FUNCTIONS///////////
+
   private function addBookmarkTag($bookmark_id, $tag_id)
   {
     //TODO: add checks to see if tag_bookmark combination is already in existance
@@ -114,33 +225,33 @@ class bookmarksAccessor
 
     if($query->execute())
     {
-      echo "success!";
+      return true;
     }
     else
     {
-      echo "fail!";
+      return false;
     }
   }
-  private function addTag($tag_id, $tag)
+  private function addTag($tag_id, $tag_name)
   {
     //TODO: add checks to see if tag is already in existance
     // TODO: learn to use better ids
-    $sql = 'INSERT INTO tags ("tag_id", "tag")
-            VALUES (:tag_id, :tag)';
+    $sql = 'INSERT INTO tags ("tag_id", "tag_name")
+            VALUES (:tag_id, :tag_name)';
     $query = $this->db_connection->prepare($sql);
 
     $query->bindValue(':tag_id', $tag_id);
-    $query->bindValue(':tag', $tag);
+    $query->bindValue(':tag_name', $tag_name);
 
     if($query->execute())
     {
-      echo "success!";
+      return true;
     }
     else
     {
-      echo "fail!";
+      return false;
     }
-  }
+}
   private function addBookmark($bookmark_id, $user_id, $bookmark_title, $bookmark_url, $bookmark_date)
   {
     //TODO: add checks to see if bookmark is already in existance
@@ -156,11 +267,11 @@ class bookmarksAccessor
     $query->bindValue(':bookmark_date', $bookmark_date);
     if($query->execute())
     {
-      echo "success!";
+      return true;
     }
     else
     {
-      echo "fail!";
+      return false;
     }
   }
 
