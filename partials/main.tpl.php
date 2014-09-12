@@ -1,4 +1,5 @@
 <main id="mainContent">
+  <script src="js/AJAX/bookmarks.js"/>
   <header class="nav-wrap">
     <nav class="search-wrap">
       <form class="search" role="search">

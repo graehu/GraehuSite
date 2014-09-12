@@ -1,9 +1,8 @@
 <?php
-//Do bookmarky things!
 class bookmarksAccessor
 {
   private $db_type = "sqlite";
-  private $db_sqlite_path = "../bookmarks.db";
+  private $db_sqlite_path = "../../bookmarks.db";
   private $db_connection = null;
   public $feedback = "";
 
@@ -67,8 +66,11 @@ class bookmarksAccessor
   public function getBookMarksWithTagsInJson()
   {
     if ($this->createDatabaseConnection()) {
-      return json_encode($this->getBookMarksWithTags());
-    }
+      $bookmarks = new stdClass;
+      $bookmarks->bookmarks = new stdClass;
+      $bookmarks->bookmarks->children = $this->getBookMarksWithTags();
+      return $bookmarks;
+      }
   }
   private function getTags()
   {
@@ -193,12 +195,12 @@ class bookmarksAccessor
       for($ii = 0; $ii < sizeof($bookmarks["bookmarks"]); $ii++)
       {
         $bookmark = new stdClass;
-        $bookmark->bookmark_id = $bookmarks["bookmarks"][$ii]->bookmark_id;
+        $bookmark->id = $bookmarks["bookmarks"][$ii]->bookmark_id;
         $bookmark->user_id = $bookmarks["bookmarks"][$ii]->user_id;
-        $bookmark->bookmark_title = $bookmarks["bookmarks"][$ii]->bookmark_title;
-        $bookmark->bookmark_url = $bookmarks["bookmarks"][$ii]->bookmark_url;
-        $bookmark->bookmark_date = $bookmarks["bookmarks"][$ii]->bookmark_date;
-        $bookmark->tags = $this->getTagsByBookmarkID($bookmark->bookmark_id);
+        $bookmark->title = $bookmarks["bookmarks"][$ii]->bookmark_title;
+        $bookmark->url = $bookmarks["bookmarks"][$ii]->bookmark_url;
+        $bookmark->date = $bookmarks["bookmarks"][$ii]->bookmark_date;
+        $bookmark->tags = $this->getTagsByBookmarkID($bookmark->id);
         $taggedBookmarks[$ii] = $bookmark;
       }
       return $taggedBookmarks;

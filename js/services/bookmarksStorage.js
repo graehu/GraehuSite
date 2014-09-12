@@ -188,10 +188,11 @@ var BookmarksStorage = function () {
 
 var loadBookmarksFromFile = function(callback)
 {
-  jQuery.get('bookmarks.json', function(data)
-  {
-      callback(data);
-  });
+  GetTaggedBookmarks(callback);
+  // jQuery.get('bookmarks.json', function(data)
+  // {
+  //    callback(data);
+  // });
 };
 
   this.update = function(bookmark, changes) {
