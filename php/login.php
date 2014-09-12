@@ -353,7 +353,7 @@ class OneFileLoginApplication
     {
         echo '<h2>Hello ' . $_SESSION['user_name'] . ',</h2> you are logged in.<br/>';
         //echo '<a href="' . $_SERVER['SCRIPT_NAME'] . '?action=logout">Log out</a>';
-        echo "<script language='JavaScript' src='js/AJAX/helper.js' type='text/javascript'/>";
+        echo "<script language='JavaScript' src='js/AJAX/login.js' type='text/javascript'/>";
         echo '<a class="important"onclick="LogOut()">Log out</a>';
 
         if ($this->feedback) {
@@ -377,10 +377,10 @@ class OneFileLoginApplication
         echo '<input id="login_input_password" type="password" name="user_password" required /> ';
         // echo '<input type="submit"  name="login" value="Log in" />';
         echo '</form>';
-        echo "<script language='JavaScript' src='js/AJAX/helper.js' type='text/javascript'/>";
+        echo "<script language='JavaScript' src='js/AJAX/login.js' type='text/javascript'/>";
         echo "<a class='important' onclick='LogIn()'> Login </a>";
         echo " or ";
-        //        echo "<script language='JavaScript' src='js/AJAX/helper.js' type='text/javascript'/>";
+        //        echo "<script language='JavaScript' src='js/AJAX/login.js' type='text/javascript'/>";
         echo "<a class='important'onclick='ShowRegPage()'> Register </a>";
         // echo '<a href="' . $_SERVER['SCRIPT_NAME'] . '?action=register">Register new account</a>';
         if ($this->feedback) {
@@ -412,7 +412,7 @@ class OneFileLoginApplication
         echo '</br>';
         //echo '<input type="submit" name="register" value="Register" />';
         echo '</form>';
-        echo "<script language='JavaScript' src='js/AJAX/helper.js' type='text/javascript'/>";
+        echo "<script language='JavaScript' src='js/AJAX/login.js' type='text/javascript'/>";
         echo "<a class='important' onclick='Register()'> Register </a>";
         echo "or";
         echo "<a class='important' onclick='ShowLoginPage()'> Cancel </a>";
