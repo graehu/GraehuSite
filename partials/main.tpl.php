@@ -104,7 +104,7 @@
             <h2>{{bookmark.title}}</h2>
 
             <div class="tag-links">
-              <span ng-repeat="tag in bookmark.tag">
+              <span ng-repeat="tag in bookmark.tags">
                 <a ng-class="{'badge-custom': tag.custom}" ng-click="selectTag(tag.text)">{{tag.text}}</a>
               </span>
             </div><!-- tags -->

@@ -143,7 +143,7 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
       $scope.filteredBookmarks = bookmarks;
 
       $scope.tags = _.chain(bookmarks)
-                      .map(function (item) { return item.tag; })
+                      .map(function (item) { return item.tags; })
                       .flatten()
                       .groupBy(function(t){ return t.text; })
                       .map(function(tagsArray, text) {
@@ -168,7 +168,7 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
       var separator = '|';
       _.each(bookmarks, function(item){
 
-          item.tagsAsString = _.chain(item.tag)
+          item.tagsAsString = _.chain(item.tags)
                                 .map(function(tag) { return tag.text; })
                                 .join(separator)
                                 .value();
@@ -260,9 +260,9 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
     modalInstance.result.then(function (updatedBookmark) {
       var updatedTags = [];
       if(!_.isNull(updatedBookmark)){
-        updatedTags = _.map(updatedBookmark.tag, function(item) { return item.text; });
+        updatedTags = _.map(updatedBookmark.tags, function(item) { return item.text; });
       }
-      var originalTags = _.map(originalBookmark.tag, function(item) { return item.text; });
+      var originalTags = _.map(originalBookmark.tags, function(item) { return item.text; });
       updateTagsInfo(updatedTags, originalTags);
 
       if (!updatedBookmark) {

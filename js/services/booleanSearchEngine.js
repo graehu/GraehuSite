@@ -17,7 +17,7 @@ var BooleanSearchEngine = function () {
     var nonePattern = 'NONE';
 
     var patterns = ['TAG:', 'URL:', 'TITLE:'];
-    
+
     // Trims defined characters from beginning and ending of the string. Defaults to whitespace characters.
     var trim = function(input, characters){
         if (!_.isString(input)) return input;
@@ -39,7 +39,7 @@ var BooleanSearchEngine = function () {
         // ARG: improve in future
         //return bookmark.tagsAsString.toUpperCase().indexOf(trim(patternText)) != -1;
 
-        var tag = _.find(bookmark.tag, function(item){
+        var tag = _.find(bookmark.tags, function(item){
             return item.text.toUpperCase().indexOf(patternText) != -1;
         });
 

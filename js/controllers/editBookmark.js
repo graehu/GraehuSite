@@ -7,8 +7,8 @@ var EditBookmarkController = function ($scope, $modalInstance, bookmark, bookmar
   $scope.bookmarkModel = {
     title: bookmark.title,
     url: bookmark.url,
-    folders: _.map(_.filter(bookmark.tag, function(t) { return t.custom === false; }), function(t) { return t.text; }),
-    customTags: _.map(_.filter(bookmark.tag, function(t) { return t.custom === true; }), function(t) { return t.text; }),
+    folders: _.map(_.filter(bookmark.tags, function(t) { return t.custom === false; }), function(t) { return t.text; }),
+    customTags: _.map(_.filter(bookmark.tags, function(t) { return t.custom === true; }), function(t) { return t.text; }),
   };
 
   $scope.save = function() {

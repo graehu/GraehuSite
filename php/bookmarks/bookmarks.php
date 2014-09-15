@@ -200,14 +200,14 @@ class bookmarksAccessor
         $bookmark->url = $bookmarks["bookmarks"][$ii]->bookmark_url;
         $bookmark->date = $bookmarks["bookmarks"][$ii]->bookmark_date;
 
-        $bookmark->tag = array();
+        $bookmark->tags = array();
 
         $bookmarkTags = $this->getTagsByBookmarkID($bookmark->id);
 
         for($iii = 0; $iii < sizeof($bookmarkTags); $iii++)
         {
-          $bookmark->tag[$iii]["text"] = $bookmarkTags[$iii];
-          $bookmark->tag[$iii]["custom"] = true;
+          $bookmark->tags[$iii]["text"] = $bookmarkTags[$iii];
+          $bookmark->tags[$iii]["custom"] = true;
         }
 
         $taggedBookmarks[$ii] = $bookmark;
