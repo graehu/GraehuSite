@@ -54,14 +54,17 @@ class bookmarksAccessor
   }
   public function addDummyValues()
   {
-    $this->addTag(0, "by me");
-    $this->addTag(1, "by someone");
-    $this->addBookmark(0, 0, "youtube", "www.youtube.com", "21.01.2112");
-    $this->addBookmark(1, 0, "pinterest", "www.pinterest.com", "21.02.2112");
-    $this->addBookmark(2, 1, "google", "www.google.com", "21.03.2112");
-    $this->addBookmarkTag(0, 0);
-    $this->addBookmarkTag(1, 0);
-    $this->addBookmarkTag(1, 1);
+    if ($this->createDatabaseConnection())
+    {
+      $this->addTag("Erin");
+      $this->addTag("Graehu");
+      $this->addBookmark(1, "youtube", "www.youtube.com", "21.01.2112");
+      $this->addBookmark(1, "pinterest", "www.pinterest.com", "21.02.2112");
+      $this->addBookmark(2, "google", "www.google.com", "21.03.2112");
+      $this->addBookmarkTag(1, 1);
+      $this->addBookmarkTag(2, 1);
+      $this->addBookmarkTag(2, 2);
+    }
   }
   public function getBookMarksWithTagsInJson()
   {
@@ -243,15 +246,14 @@ class bookmarksAccessor
       return false;
     }
   }
-  private function addTag($tag_id, $tag_name)
+  private function addTag($tag_name)
   {
     //TODO: add checks to see if tag is already in existance
     // TODO: learn to use better ids
-    $sql = 'INSERT INTO tags ("tag_id", "tag_name")
-            VALUES (:tag_id, :tag_name)';
+    $sql = 'INSERT INTO tags ("tag_name")
+            VALUES (:tag_name)';
     $query = $this->db_connection->prepare($sql);
 
-    $query->bindValue(':tag_id', $tag_id);
     $query->bindValue(':tag_name', $tag_name);
 
     if($query->execute())
@@ -263,15 +265,14 @@ class bookmarksAccessor
       return false;
     }
 }
-  private function addBookmark($bookmark_id, $user_id, $bookmark_title, $bookmark_url, $bookmark_date)
+  private function addBookmark($user_id, $bookmark_title, $bookmark_url, $bookmark_date)
   {
     //TODO: add checks to see if bookmark is already in existance
     // TODO: learn to use better ids
-    $sql = 'INSERT INTO bookmarks("bookmark_id", "user_id", "bookmark_title", "bookmark_url", "bookmark_date")
-    VALUES(:bookmark_id, :user_id, :bookmark_title, :bookmark_url, :bookmark_date)';
+    $sql = 'INSERT INTO bookmarks ("user_id", "bookmark_title", "bookmark_url", "bookmark_date")
+    VALUES (:user_id, :bookmark_title, :bookmark_url, :bookmark_date)';
 
     $query = $this->db_connection->prepare($sql);
-    $query->bindValue(':bookmark_id', $bookmark_id);
     $query->bindValue(':user_id', $user_id);
     $query->bindValue(':bookmark_title', $bookmark_title);
     $query->bindValue(':bookmark_url', $bookmark_url);
