@@ -200,19 +200,23 @@ var loadBookmarksFromFile = function(callback)
 
     if (changes.url !== bookmark.url) {  // If url is different add it to update
       update.url = changes.url;
+      update.bookmark_url = changes.url;
     }
 
     if (changes.title !== bookmark.title) {  // If title different add it to update
       update.title = changes.title;
+      update.bookmark_title = changes.title;
     }
 
     if (_.keys(update).length > 0) {  // If we have something to change (title or url) let's do it
-      chrome.bookmarks.update(bookmark.id, update);
+      update.bookmark_id = bookmark.id;
+      UpdateBookmark(update);
+      //chrome.bookmarks.update(bookmark.id, update);
       _.extend(bookmark, update);  // Copy all updates to bookmark after updating chrome bookmarks
     }
 
     removeCustomTags(bookmark.url);
-    bookmark.tag = _.filter(bookmark.tag, function(t) { return t.custom === false; });
+    bookmark.tags = _.filter(bookmark.tags, function(t) { return t.custom === false; });
     if (changes.customTags && changes.customTags.length > 0) {
       saveCustomTags(bookmark.url, changes.customTags);
       fillBookmarkWithCustomTags(bookmark);
