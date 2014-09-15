@@ -89,7 +89,7 @@
 
         <div class="card" ng-class="{'card-primary': ($index == selectedIndex), 'card-small': !showThumbnails}" ng-click="selectBookmark($index)">
           <!-- If you're logged in you can edit bookmarks -->
-          <?php if($application->getUserLoginStatus() == 1)
+          <?php if($login->getUserLoginStatus() == 1)
             echo '<div class="edit-toggle" ng-click="editBookmark(bookmark)"></div>';
           else
             echo "";?>;

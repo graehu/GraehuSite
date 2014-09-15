@@ -424,4 +424,4 @@ class OneFileLoginApplication
     }
 }
 // run the application
-$application = new OneFileLoginApplication();
+$login = new OneFileLoginApplication();
