@@ -17,8 +17,8 @@ var BooleanSearchEngine = function () {
     var nonePattern = 'NONE';
 
     var patterns = ['TAG:', 'URL:', 'TITLE:'];
-
-    // Trims defined characters from begining and ending of the string. Defaults to whitespace characters.
+    
+    // Trims defined characters from beginning and ending of the string. Defaults to whitespace characters.
     var trim = function(input, characters){
         if (!_.isString(input)) return input;
 

@@ -162,13 +162,13 @@ var BookmarksStorage = function () {
     this.loadSettings(function(settings) {
 
       // At first get custom tags and after this start bookmarks traversal.
-      enumerateAllCustomTagChunks({n: true}, -1, function() {
+      //enumerateAllCustomTagChunks({n: true}, -1, function() {
       loadBookmarksFromFile(function(tree)//chrome.bookmarks.getTree
         {
-          enumerateChildren(tree, [], /* level: */ 0, settings.hideTopLevelFolders);
+          // enumerateChildren(tree, [], /* level: */ 0, settings.hideTopLevelFolders);
           // Custom tags is legacy storage
           // TODO: remove after couple releases support of customTgs key.
-          callback(_.values(bookmarks), settings);
+          callback(tree, settings);
 
           /*chrome.storage.sync.get('customTags', function(data) {
             if (data && data.customTags) {
@@ -182,7 +182,7 @@ var BookmarksStorage = function () {
             callback(_.values(bookmarks), settings);
           });*/
         });
-      });
+      // });
     });
   };
 

@@ -66,14 +66,12 @@ class bookmarksAccessor
   public function getBookMarksWithTagsInJson()
   {
     if ($this->createDatabaseConnection()) {
-      $bookmarks = new stdClass;
-      $bookmarks->bookmarks = new stdClass;
-      $bookmarks->bookmarks->children = $this->getBookMarksWithTags();
-      return $bookmarks;
+      return $this->getBookMarksWithTags();
       }
   }
-  private function getTags()
+  public function getBookmarkTags()
   {
+    if ($this->createDatabaseConnection()) {
     $sql = 'SELECT * FROM tags';
     $query = $this->db_connection->prepare($sql);
 
@@ -93,6 +91,7 @@ class bookmarksAccessor
     {
       return null;
     }
+  }
   }
   private function getBookmarksByUserId($user_id)
   {
@@ -200,7 +199,17 @@ class bookmarksAccessor
         $bookmark->title = $bookmarks["bookmarks"][$ii]->bookmark_title;
         $bookmark->url = $bookmarks["bookmarks"][$ii]->bookmark_url;
         $bookmark->date = $bookmarks["bookmarks"][$ii]->bookmark_date;
-        $bookmark->tags = $this->getTagsByBookmarkID($bookmark->id);
+
+        $bookmark->tag = array();
+
+        $bookmarkTags = $this->getTagsByBookmarkID($bookmark->id);
+
+        for($iii = 0; $iii < sizeof($bookmarkTags); $iii++)
+        {
+          $bookmark->tag[$iii]["text"] = $bookmarkTags[$iii];
+          $bookmark->tag[$iii]["custom"] = true;
+        }
+
         $taggedBookmarks[$ii] = $bookmark;
       }
       return $taggedBookmarks;
