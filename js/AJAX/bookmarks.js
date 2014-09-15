@@ -31,3 +31,19 @@ function GetBookmarkTags(callback)
     }
   );
 }
+
+function UpdateBookmark(update, callback)
+{
+  $.ajax(
+    {
+      url: "php/bookmarks/updateBookmarks.php",
+      type:"POST",
+      //dataType : "json",
+      data: update,
+      success: function(evt)
+      {
+        callback(evt);
+      }
+    }
+  );
+}

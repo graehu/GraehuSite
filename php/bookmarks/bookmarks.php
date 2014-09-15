@@ -72,6 +72,53 @@ class bookmarksAccessor
       return $this->getBookMarksWithTags();
       }
   }
+
+  public function updateBookmark($update)
+  {
+    if($this->createDatabaseConnection())
+    {
+
+      $sqlset = "";
+
+      if(array_key_exists("bookmark_title", $update))
+        $sqlset = $sqlset."bookmark_title="."'".$update["bookmark_title"]."'";
+
+      if(array_key_exists("user_id", $update))
+      {
+        if($sqlset != "") $sqlset = $sqlset . ", ";
+        $sqlset = $sqlset."user_id="."'".$update["user_id"]."'";
+      }
+
+      if(array_key_exists("bookmark_url", $update))
+      {
+        if($sqlset != "") $sqlset = $sqlset . ", ";
+        $sqlset = $sqlset."bookmark_url="."'".$update["bookmark_url"]."'";
+      }
+
+      if(array_key_exists("bookmark_date", $update))
+      {
+        if($sqlset != "") $sqlset = $sqlset . ", ";
+        $sqlset = $sqlset."bookmark_date="."'".$update["bookmark_date"]."'";
+      }
+
+      $sql = 'UPDATE bookmarks
+              SET ' . $sqlset . '
+              WHERE bookmark_id= '.$update["bookmark_id"];
+              // echo $sqlset;
+              // echo "</br>";
+              // echo $sql;
+      $query = $this->db_connection->prepare($sql);
+      if($query->execute())
+      {
+        echo "success";
+      }
+      else
+      {
+        echo "fail";
+      }
+    }
+  }
+
   public function getBookmarkTags()
   {
     if ($this->createDatabaseConnection()) {
