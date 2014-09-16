@@ -38,10 +38,25 @@ function UpdateBookmark(update, callback)
     {
       url: "php/bookmarks/updateBookmarks.php",
       type:"POST",
-      //dataType : "json",
       data: update,
       success: function(evt)
       {
+        callback(evt);
+      }
+    }
+  );
+}
+
+function UpdateBookmarkTags(update, callback)
+{
+  $.ajax(
+    {
+      url: "php/bookmarks/updateBookmarkTags.php",
+      type:"POST",
+      data: update,
+      success: function(evt)
+      {
+        console.log(evt);
         callback(evt);
       }
     }

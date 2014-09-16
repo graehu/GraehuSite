@@ -1,4 +1,10 @@
 <?php
+//TODO: make sure that only uppercase tags are stored.
+//TODO: add checks to see if tag combination is already in existance.
+//TODO: make updateBookmarkTags more efficent.
+//TODO: add more checks to this document.
+//TODO: comment things.
+//TODO: handle failures better.
 class bookmarksAccessor
 {
   private $db_type = "sqlite";
@@ -71,52 +77,6 @@ class bookmarksAccessor
     if ($this->createDatabaseConnection()) {
       return $this->getBookMarksWithTags();
       }
-  }
-
-  public function updateBookmark($update)
-  {
-    if($this->createDatabaseConnection())
-    {
-
-      $sqlset = "";
-
-      if(array_key_exists("bookmark_title", $update))
-        $sqlset = $sqlset."bookmark_title="."'".$update["bookmark_title"]."'";
-
-      if(array_key_exists("user_id", $update))
-      {
-        if($sqlset != "") $sqlset = $sqlset . ", ";
-        $sqlset = $sqlset."user_id="."'".$update["user_id"]."'";
-      }
-
-      if(array_key_exists("bookmark_url", $update))
-      {
-        if($sqlset != "") $sqlset = $sqlset . ", ";
-        $sqlset = $sqlset."bookmark_url="."'".$update["bookmark_url"]."'";
-      }
-
-      if(array_key_exists("bookmark_date", $update))
-      {
-        if($sqlset != "") $sqlset = $sqlset . ", ";
-        $sqlset = $sqlset."bookmark_date="."'".$update["bookmark_date"]."'";
-      }
-
-      $sql = 'UPDATE bookmarks
-              SET ' . $sqlset . '
-              WHERE bookmark_id= '.$update["bookmark_id"];
-              // echo $sqlset;
-              // echo "</br>";
-              // echo $sql;
-      $query = $this->db_connection->prepare($sql);
-      if($query->execute())
-      {
-        echo "success";
-      }
-      else
-      {
-        echo "fail";
-      }
-    }
   }
 
   public function getBookmarkTags()
@@ -211,7 +171,6 @@ class bookmarksAccessor
         $i++;
       }
       $bookmarks = array('bookmarks' => $bookmarks);
-      //echo json_encode($bookmarks);
       return $bookmarks;
     }
     else
@@ -270,12 +229,108 @@ class bookmarksAccessor
     }
   }
 
+  /////////////////////////////////////////
+  ////DATA BASE UPDATE FUNCTIONS///////////
+  /////////////////////////////////////////
+
+  public function updateBookmark($update)
+  {
+    if($this->createDatabaseConnection())
+    {
+
+      $sqlset = "";
+
+      if(array_key_exists("bookmark_title", $update))
+        $sqlset = $sqlset."bookmark_title="."'".$update["bookmark_title"]."'";
+
+      if(array_key_exists("user_id", $update))
+      {
+        if($sqlset != "") $sqlset = $sqlset . ", ";
+        $sqlset = $sqlset."user_id="."'".$update["user_id"]."'";
+      }
+
+      if(array_key_exists("bookmark_url", $update))
+      {
+        if($sqlset != "") $sqlset = $sqlset . ", ";
+        $sqlset = $sqlset."bookmark_url="."'".$update["bookmark_url"]."'";
+      }
+
+      if(array_key_exists("bookmark_date", $update))
+      {
+        if($sqlset != "") $sqlset = $sqlset . ", ";
+        $sqlset = $sqlset."bookmark_date="."'".$update["bookmark_date"]."'";
+      }
+
+      $sql = 'UPDATE bookmarks
+              SET ' . $sqlset . '
+              WHERE bookmark_id= '.$update["bookmark_id"];
+      $query = $this->db_connection->prepare($sql);
+      if($query->execute())
+      {
+        echo "success";
+      }
+      else
+      {
+        echo "fail";
+      }
+    }
+  }
+  public function updateBookmarkTags($update)
+  {
+    if($this->createDatabaseConnection())
+    {
+      $tag_names = implode('"),("', $update["tags"]);
+      $sql = 'INSERT INTO tags ("tag_name")
+              VALUES ("'.$tag_names.'")';
+
+      $query = $this->db_connection->prepare($sql);
+      if($query->execute())
+      {
+        $sql = 'DELETE FROM tags
+                WHERE tag_id NOT IN
+                (SELECT MIN(tag_id) FROM tags GROUP BY tag_name)';
+
+        $query = $this->db_connection->prepare($sql);
+        if($query->execute())
+        {
+          $tag_names = implode('","', $update["tags"]);
+          $sql = 'SELECT tag_id FROM tags WHERE tags.tag_name IN ("'.$tag_names.'")';
+          // echo $sql;
+          $query = $this->db_connection->prepare($sql);
+
+          if($query->execute())
+          {
+            $bookmark_tag_ids = $query->fetchAll(PDO::FETCH_COLUMN);
+            $bookmark_tag_ids = implode("),(".$update["bookmark_id"] .", ", $bookmark_tag_ids);
+
+            $sql = 'DELETE FROM bookmark_tags
+                    WHERE bookmark_id= '.$update["bookmark_id"];
+            // echo $sql;
+            $query = $this->db_connection->prepare($sql);
+
+            if($query->execute())
+            {
+              $sql = 'INSERT INTO bookmark_tags ("bookmark_id", "tag_id")
+                      VALUES ('.$update["bookmark_id"].', '.$bookmark_tag_ids.')';
+              // echo $sql;
+              $query = $this->db_connection->prepare($sql);
+              if($query->execute())
+              {
+                echo "success";
+              } else echo "fail";
+            } else echo "fail";
+          }
+          else echo "fail";
+        }
+        else echo "fail";
+      }
+      else echo "fail";
+    }
+  }
   ////DATA BASE ENTRY FUNCTIONS///////////
 
   private function addBookmarkTag($bookmark_id, $tag_id)
   {
-    //TODO: add checks to see if tag_bookmark combination is already in existance
-    // TODO: learn to use better ids
     $sql = 'INSERT INTO bookmark_tags ("bookmark_id", "tag_id")
             VALUES (:bookmark_id, :tag_id)';
 
@@ -295,8 +350,6 @@ class bookmarksAccessor
   }
   private function addTag($tag_name)
   {
-    //TODO: add checks to see if tag is already in existance
-    // TODO: learn to use better ids
     $sql = 'INSERT INTO tags ("tag_name")
             VALUES (:tag_name)';
     $query = $this->db_connection->prepare($sql);
@@ -314,8 +367,6 @@ class bookmarksAccessor
 }
   private function addBookmark($user_id, $bookmark_title, $bookmark_url, $bookmark_date)
   {
-    //TODO: add checks to see if bookmark is already in existance
-    // TODO: learn to use better ids
     $sql = 'INSERT INTO bookmarks ("user_id", "bookmark_title", "bookmark_url", "bookmark_date")
     VALUES (:user_id, :bookmark_title, :bookmark_url, :bookmark_date)';
 

@@ -218,8 +218,15 @@ var loadBookmarksFromFile = function(callback)
     removeCustomTags(bookmark.url);
     bookmark.tags = _.filter(bookmark.tags, function(t) { return t.custom === false; });
     if (changes.customTags && changes.customTags.length > 0) {
-      saveCustomTags(bookmark.url, changes.customTags);
-      fillBookmarkWithCustomTags(bookmark);
+      var tagsUpdate = {}
+      tagsUpdate.bookmark_id = bookmark.id;
+      tagsUpdate.tags = changes.customTags;
+      UpdateBookmarkTags(tagsUpdate, function(){});
+      //saveCustomTags(bookmark.url, changes.customTags);
+      //fillBookmarkWithCustomTags(bookmark);
+      _.each(changes.customTags, function(tag){
+      bookmark.tags.push({text: tag, custom: true});
+      });
     }
   };
 
