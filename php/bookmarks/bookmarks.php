@@ -66,10 +66,12 @@ class bookmarksAccessor
   {
     if ($this->createDatabaseConnection())
     {
-      //TODO: Get user session id.
       $a = session_id();
       if(empty($a)) session_start();
-      $this->addBookmark($_SESSION["user_id"], "Title", "Url", strtotime("now"));
+      if($_SESSION["user_is_logged_in"])
+      {
+        $this->addBookmark($_SESSION["user_id"], "Title", "Url", strtotime("now"));
+      }else echo "fail";
     }
   }
 
@@ -249,97 +251,107 @@ class bookmarksAccessor
 
   public function updateBookmark($update)
   {
-    if($this->createDatabaseConnection())
+    $a = session_id();
+    if(empty($a)) session_start();
+    if($_SESSION["user_is_logged_in"])
     {
-
-      $sqlset = "";
-
-      if(array_key_exists("bookmark_title", $update))
-        $sqlset = $sqlset."bookmark_title="."'".$update["bookmark_title"]."'";
-
-      if(array_key_exists("user_id", $update))
+      if($this->createDatabaseConnection())
       {
-        if($sqlset != "") $sqlset = $sqlset . ", ";
-        $sqlset = $sqlset."user_id="."'".$update["user_id"]."'";
-      }
 
-      if(array_key_exists("bookmark_url", $update))
-      {
-        if($sqlset != "") $sqlset = $sqlset . ", ";
-        $sqlset = $sqlset."bookmark_url="."'".$update["bookmark_url"]."'";
-      }
+        $sqlset = "";
 
-      if(array_key_exists("bookmark_date", $update))
-      {
-        if($sqlset != "") $sqlset = $sqlset . ", ";
-        $sqlset = $sqlset."bookmark_date="."".$update["bookmark_date"]."";
-      }
+        if(array_key_exists("bookmark_title", $update))
+          $sqlset = $sqlset."bookmark_title="."'".$update["bookmark_title"]."'";
 
-      $sql = 'UPDATE bookmarks
-              SET ' . $sqlset . '
-              WHERE bookmark_id= '.$update["bookmark_id"];
-      $query = $this->db_connection->prepare($sql);
-      if($query->execute())
-      {
-        echo "success";
-      }
-      else
-      {
-        echo "fail";
-      }
-    }
+        if(array_key_exists("user_id", $update))
+        {
+          if($sqlset != "") $sqlset = $sqlset . ", ";
+          $sqlset = $sqlset."user_id="."'".$update["user_id"]."'";
+        }
+
+        if(array_key_exists("bookmark_url", $update))
+        {
+          if($sqlset != "") $sqlset = $sqlset . ", ";
+          $sqlset = $sqlset."bookmark_url="."'".$update["bookmark_url"]."'";
+        }
+
+        if(array_key_exists("bookmark_date", $update))
+        {
+          if($sqlset != "") $sqlset = $sqlset . ", ";
+          $sqlset = $sqlset."bookmark_date="."".$update["bookmark_date"]."";
+        }
+
+        $sql = 'UPDATE bookmarks
+                SET ' . $sqlset . '
+                WHERE bookmark_id= '.$update["bookmark_id"];
+        $query = $this->db_connection->prepare($sql);
+        if($query->execute())
+        {
+          echo "success";
+        }
+        else
+        {
+          echo "fail";
+        }
+      }else echo "fail";
+    }else echo "fail";
   }
   public function updateBookmarkTags($update)
   {
-    if($this->createDatabaseConnection())
+    $a = session_id();
+    if(empty($a)) session_start();
+    if($_SESSION["user_is_logged_in"])
     {
-      $tag_names = implode('"),("', $update["tags"]);
-      $sql = 'INSERT INTO tags ("tag_name")
-              VALUES ("'.$tag_names.'")';
-
-      $query = $this->db_connection->prepare($sql);
-      if($query->execute())
+      if($this->createDatabaseConnection())
       {
-        $sql = 'DELETE FROM tags
-                WHERE tag_id NOT IN
-                (SELECT MIN(tag_id) FROM tags GROUP BY tag_name)';
+        $tag_names = implode('"),("', $update["tags"]);
+        $sql = 'INSERT INTO tags ("tag_name")
+                VALUES ("'.$tag_names.'")';
 
         $query = $this->db_connection->prepare($sql);
         if($query->execute())
         {
-          $tag_names = implode('","', $update["tags"]);
-          $sql = 'SELECT tag_id FROM tags WHERE tags.tag_name IN ("'.$tag_names.'")';
-          // echo $sql;
-          $query = $this->db_connection->prepare($sql);
+          $sql = 'DELETE FROM tags
+                  WHERE tag_id NOT IN
+                  (SELECT MIN(tag_id) FROM tags GROUP BY tag_name)';
 
+          $query = $this->db_connection->prepare($sql);
           if($query->execute())
           {
-            $bookmark_tag_ids = $query->fetchAll(PDO::FETCH_COLUMN);
-            $bookmark_tag_ids = implode("),(".$update["bookmark_id"] .", ", $bookmark_tag_ids);
-
-            $sql = 'DELETE FROM bookmark_tags
-                    WHERE bookmark_id= '.$update["bookmark_id"];
+            $tag_names = implode('","', $update["tags"]);
+            $sql = 'SELECT tag_id FROM tags WHERE tags.tag_name IN ("'.$tag_names.'")';
             // echo $sql;
             $query = $this->db_connection->prepare($sql);
 
             if($query->execute())
             {
-              $sql = 'INSERT INTO bookmark_tags ("bookmark_id", "tag_id")
-                      VALUES ('.$update["bookmark_id"].', '.$bookmark_tag_ids.')';
+              $bookmark_tag_ids = $query->fetchAll(PDO::FETCH_COLUMN);
+              $bookmark_tag_ids = implode("),(".$update["bookmark_id"] .", ", $bookmark_tag_ids);
+
+              $sql = 'DELETE FROM bookmark_tags
+                      WHERE bookmark_id= '.$update["bookmark_id"];
               // echo $sql;
               $query = $this->db_connection->prepare($sql);
+
               if($query->execute())
               {
-                echo "success";
+                $sql = 'INSERT INTO bookmark_tags ("bookmark_id", "tag_id")
+                        VALUES ('.$update["bookmark_id"].', '.$bookmark_tag_ids.')';
+                // echo $sql;
+                $query = $this->db_connection->prepare($sql);
+                if($query->execute())
+                {
+                  echo "success";
+                } else echo "fail";
               } else echo "fail";
-            } else echo "fail";
+            }
+            else echo "fail";
           }
           else echo "fail";
         }
         else echo "fail";
       }
-      else echo "fail";
-    }
+    }else echo "fail";
   }
     /////////////////////////////////////////
     ////DATA BASE ENTRY FUNCTIONS////////////
@@ -380,7 +392,7 @@ class bookmarksAccessor
     {
       return false;
     }
-}
+  }
   private function addBookmark($user_id, $bookmark_title, $bookmark_url, $bookmark_date)
   {
     $sql = 'INSERT INTO bookmarks ("user_id", "bookmark_title", "bookmark_url", "bookmark_date")
@@ -407,23 +419,28 @@ class bookmarksAccessor
 
   public function removeBookmark($bookmark_id)
   {
-    if($this->createDatabaseConnection())
+    $a = session_id();
+    if(empty($a)) session_start();
+    if($_SESSION["user_is_logged_in"])
     {
-    $sql = 'DELETE FROM bookmarks
-            WHERE bookmark_id= ' . $bookmark_id;
-    $query = $this->db_connection->prepare($sql);
-    if($query->execute())
-    {
-      $sql = 'DELETE FROM bookmark_tags
+      if($this->createDatabaseConnection())
+      {
+      $sql = 'DELETE FROM bookmarks
               WHERE bookmark_id= ' . $bookmark_id;
       $query = $this->db_connection->prepare($sql);
       if($query->execute())
       {
-        echo "success";
+        $sql = 'DELETE FROM bookmark_tags
+                WHERE bookmark_id= ' . $bookmark_id;
+        $query = $this->db_connection->prepare($sql);
+        if($query->execute())
+        {
+          echo "success";
+        }else echo "fail";
       }else echo "fail";
-    }else echo "fail";
+      }
+      else echo "fail";
     }
-    else echo "fail";
   }
 
 }
