@@ -61,15 +61,26 @@ class bookmarksAccessor
       return json_encode($this->getBookMarks());
     }
   }
+
+  public function addCurrentUserBookmark()
+  {
+    if ($this->createDatabaseConnection())
+    {
+      //TODO: Get user session id.
+      $a = session_id();
+      if(empty($a)) session_start();
+      $this->addBookmark($_SESSION["user_id"], "Title", "Url", strtotime("now"));
+    }
+  }
+
   public function addDummyValues()
   {
     if ($this->createDatabaseConnection())
     {
       $this->addTag("Erin");
       $this->addTag("Graehu");
-      $this->addBookmark(1, "youtube", "www.youtube.com", "21.01.2112");
-      $this->addBookmark(1, "pinterest", "www.pinterest.com", "21.02.2112");
-      $this->addBookmark(2, "google", "www.google.com", "21.03.2112");
+      $this->addBookmark(1, "pinterest", "www.pinterest.com", strtotime("now"));
+      $this->addBookmark(2, "google", "www.google.com",strtotime("now"));
       $this->addBookmarkTag(1, 1);
       $this->addBookmarkTag(2, 1);
       $this->addBookmarkTag(2, 2);
@@ -261,7 +272,7 @@ class bookmarksAccessor
       if(array_key_exists("bookmark_date", $update))
       {
         if($sqlset != "") $sqlset = $sqlset . ", ";
-        $sqlset = $sqlset."bookmark_date="."'".$update["bookmark_date"]."'";
+        $sqlset = $sqlset."bookmark_date="."".$update["bookmark_date"]."";
       }
 
       $sql = 'UPDATE bookmarks

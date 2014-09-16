@@ -21,7 +21,7 @@ $sql = 'CREATE TABLE IF NOT EXISTS `bookmarks` (
         `user_id` INTEGER,
         `bookmark_title` varchar(256),
         `bookmark_url` varchar(256),
-        `bookmark_date` varchar(64)
+        `bookmark_date` INTEGER
         );
         CREATE UNIQUE INDEX `user_id_UNIQUE` ON `bookmarks` (`user_id` ASC);
         CREATE UNIQUE INDEX `bookmark_id_UNIQUE` ON `bookmarks` (`bookmark_id` ASC);

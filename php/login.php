@@ -203,7 +203,7 @@ class OneFileLoginApplication
     private function checkPasswordCorrectnessAndLogin()
     {
         // remember: the user can log in with username or email address
-        $sql = 'SELECT user_name, user_email, user_password_hash
+        $sql = 'SELECT user_id, user_name, user_email, user_password_hash
                 FROM users
                 WHERE user_name = :user_name OR user_email = :user_name
                 LIMIT 1';
@@ -222,6 +222,7 @@ class OneFileLoginApplication
             // using PHP 5.5's password_verify() function to check password
             if (password_verify($_POST['user_password'], $result_row->user_password_hash)) {
                 // write user data into PHP SESSION [a file on your server]
+                $_SESSION['user_id'] = $result_row->user_id;
                 $_SESSION['user_name'] = $result_row->user_name;
                 $_SESSION['user_email'] = $result_row->user_email;
                 $_SESSION['user_is_logged_in'] = true;
