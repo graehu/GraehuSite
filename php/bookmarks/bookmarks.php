@@ -5,6 +5,9 @@
 //TODO: add more checks to this document.
 //TODO: comment things.
 //TODO: handle failures better.
+//TODO: add user based functionality.
+//TODO: find repeated code and break into functions.
+
 class bookmarksAccessor
 {
   private $db_type = "sqlite";
@@ -327,7 +330,9 @@ class bookmarksAccessor
       else echo "fail";
     }
   }
-  ////DATA BASE ENTRY FUNCTIONS///////////
+    /////////////////////////////////////////
+    ////DATA BASE ENTRY FUNCTIONS////////////
+    /////////////////////////////////////////
 
   private function addBookmarkTag($bookmark_id, $tag_id)
   {
@@ -383,6 +388,31 @@ class bookmarksAccessor
     {
       return false;
     }
+  }
+
+  /////////////////////////////////////////
+  ////DATA BASE REMOVAL FUNCTIONS//////////
+  /////////////////////////////////////////
+
+  public function removeBookmark($bookmark_id)
+  {
+    if($this->createDatabaseConnection())
+    {
+    $sql = 'DELETE FROM bookmarks
+            WHERE bookmark_id= ' . $bookmark_id;
+    $query = $this->db_connection->prepare($sql);
+    if($query->execute())
+    {
+      $sql = 'DELETE FROM bookmark_tags
+              WHERE bookmark_id= ' . $bookmark_id;
+      $query = $this->db_connection->prepare($sql);
+      if($query->execute())
+      {
+        echo "success";
+      }else echo "fail";
+    }else echo "fail";
+    }
+    else echo "fail";
   }
 
 }

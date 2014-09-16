@@ -234,8 +234,9 @@ var loadBookmarksFromFile = function(callback)
   * Remove bookmark.
   */
   this.remove = function(bookmark) {
-    removeCustomTags(bookmark.url);
-    chrome.bookmarks.remove(bookmark.id);
+    //removeCustomTags(bookmark.url);
+    //chrome.bookmarks.remove(bookmark.id);
+    RemoveBookmark({bookmark_id:bookmark.id});
   };
 
   /*

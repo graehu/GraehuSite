@@ -1,3 +1,4 @@
+//TODO: write something much better than this.
 function GetTaggedBookmarks(callback)
 {
   $.ajax(
@@ -56,8 +57,22 @@ function UpdateBookmarkTags(update, callback)
       data: update,
       success: function(evt)
       {
-        console.log(evt);
+        //console.log(evt);
         callback(evt);
+      }
+    }
+  );
+}
+function RemoveBookmark(bookmark_id)
+{
+  $.ajax(
+    {
+      url: "php/bookmarks/removeBookmark.php",
+      type:"POST",
+      data: bookmark_id,
+      success: function(evt)
+      {
+        console.log(evt);
       }
     }
   );
