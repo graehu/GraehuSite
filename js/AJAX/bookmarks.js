@@ -8,8 +8,6 @@ function GetTaggedBookmarks(callback)
       dataType : "json",
       success: function(evt)
       {
-        // console.log("GetTaggedBookmarks: called")
-        // console.log(evt);
         callback(evt);
       }
     }
@@ -25,15 +23,13 @@ function GetBookmarkTags(callback)
       dataType : "json",
       success: function(evt)
       {
-        // console.log("GetBookmarkTags: called")
-        // console.log(evt);
         callback(evt);
       }
     }
   );
 }
 
-function UpdateBookmark(update, callback)
+function UpdateBookmark(update)
 {
   $.ajax(
     {
@@ -42,13 +38,12 @@ function UpdateBookmark(update, callback)
       data: update,
       success: function(evt)
       {
-        callback(evt);
       }
     }
   );
 }
 
-function UpdateBookmarkTags(update, callback)
+function UpdateBookmarkTags(update)
 {
   $.ajax(
     {
@@ -57,8 +52,6 @@ function UpdateBookmarkTags(update, callback)
       data: update,
       success: function(evt)
       {
-        //console.log(evt);
-        callback(evt);
       }
     }
   );

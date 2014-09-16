@@ -221,7 +221,7 @@ var loadBookmarksFromFile = function(callback)
       var tagsUpdate = {}
       tagsUpdate.bookmark_id = bookmark.id;
       tagsUpdate.tags = changes.customTags;
-      UpdateBookmarkTags(tagsUpdate, function(){});
+      UpdateBookmarkTags(tagsUpdate);
       //saveCustomTags(bookmark.url, changes.customTags);
       //fillBookmarkWithCustomTags(bookmark);
       _.each(changes.customTags, function(tag){
