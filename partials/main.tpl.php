@@ -8,6 +8,7 @@
             autofocus="true"
             type="search"
             class="form-control"
+            placeholder="graehu.com"
             ng-model="searchText">
             <!--typeahead="tag for tag in getTypeheadSuggestions($viewValue)"-->
         </div>

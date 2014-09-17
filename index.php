@@ -7,7 +7,7 @@
 
     <title>Graehu</title>
 
-    <link rel='stylesheet' href='css/main.css'>
+    <link rel='stylesheet' href='css/graehu.css'>
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
     <script data-main='js/startup' src='bower_components/requirejs/require.js'></script>
 
