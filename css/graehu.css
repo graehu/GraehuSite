@@ -55,7 +55,10 @@
 
 html {
   background: #00462e;
-  font-size: 100%; }
+  background-image: url('../images/site.png');
+  background-repeat: repeat-x;
+  font-size: 100%;
+}
 
 body {
   color: rgba(36, 45, 50, 0.3);
@@ -139,7 +142,7 @@ body canvas {
 .nav-wrap {
   -webkit-animation: fade-in-down 300ms ease-in-out;
   -webkit-transform-origin: center;
-  background: #00ba63;
+  background: rgba(00, 186, 95, 0.85);
   box-shadow: 0 0 2rem 0.625rem rgba(0, 0, 0, 0.05);
   height: 3.125rem;
   position: fixed;
@@ -160,7 +163,7 @@ body canvas {
 
   -webkit-appearance: none;
   background:  url(../images/search.svg) no-repeat;
-
+  
   background-position: 1rem 1rem;
   background-size: 1.3rem;
   border: none;

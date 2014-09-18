@@ -58,7 +58,7 @@
     <div class="credits makers">
       Built by:
       <a class="important" href="https://twitter.com/outcoldman" target="_blank">Denis</a>,
-      <a class="important" href="https://twitter.com/jmwlsn" target="_blank">Jamie</a>
+      <a class="important" href="https://twitter.com/jmwlsn" target="_blank">Jamie</a>,
       <a class="important" href="https://twitter.com/artemgrygor" target="_blank">Artem</a>
       and <a class="important" href="https://twitter.com/graehu" target="_blank">Me</a>
     </div>

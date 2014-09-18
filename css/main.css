@@ -55,7 +55,10 @@
 
 html {
   background: #e4e7e6;
-  font-size: 100%; }
+  font-size: 100%;
+  background-image: url('../images/site.png');
+  background-repeat: repeat-x;
+  }
 
 body {
   color: rgba(36, 45, 50, 0.3);
