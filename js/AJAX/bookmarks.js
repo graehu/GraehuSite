@@ -1,6 +1,7 @@
 //TODO: write something much better than this.
 function GetTaggedBookmarks(callback)
 {
+console.log("calling GetTaggedBookmarks");
   $.ajax(
     {
       url: "php/bookmarks/getTaggedBookmarks.php",
@@ -8,6 +9,7 @@ function GetTaggedBookmarks(callback)
       dataType : "json",
       success: function(evt)
       {
+	console.log(evt);
         callback(evt);
       }
     }
@@ -23,6 +25,7 @@ function GetBookmarkTags(callback)
       dataType : "json",
       success: function(evt)
       {
+	console.log(evt);
         callback(evt);
       }
     }
@@ -38,6 +41,7 @@ function UpdateBookmark(update)
       data: update,
       success: function(evt)
       {
+	console.log(evt);
       }
     }
   );
@@ -52,6 +56,7 @@ function UpdateBookmarkTags(update)
       data: update,
       success: function(evt)
       {
+	console.log(evt);
       }
     }
   );
@@ -69,4 +74,13 @@ function RemoveBookmark(bookmark_id)
       }
     }
   );
+}
+function AddCurrentUserBookmark()
+{
+  $.ajax(
+	{
+	url: "php/bookmarks/addCurrentUserBookmark.php",
+	success: function(evt){console.log(evt);}
+	});
+console.log("makes it past this call");
 }

@@ -1,4 +1,4 @@
-<FilesMatch "users.db|bookmarks.db">
+<FilesMatch "bookmarks.db">
   Order allow,deny
   Deny from all
 </FilesMatch>

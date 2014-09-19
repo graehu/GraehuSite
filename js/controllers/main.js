@@ -118,7 +118,7 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
         $scope.selectedIndex -= $scope.itemsPerRow;
         updated = true;
       }
-    }
+    } else if(e.which === 32 && e.shiftKey) {AddCurrentUserBookmark();}
     if (updated) { // right arrow, left arrow, down arrow, up arrow, tab, and shift+tab key pressed - select next element
       $scope.$apply();
       var cards = getAllCards();

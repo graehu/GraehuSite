@@ -329,6 +329,7 @@ class OneFileLoginApplication
                 $this->feedback = "Your account has been created successfully. You can now log in.";
                 return true;
             } else {
+		echo json_encode($query->errorinfo());
                 $this->feedback = "Sorry, your registration failed. Please go back and try again.";
             }
         }
@@ -380,9 +381,9 @@ class OneFileLoginApplication
         echo '</form>';
         echo "<script language='JavaScript' src='js/AJAX/login.js' type='text/javascript'/>";
         echo "<a class='important' onclick='LogIn()'> Login </a>";
-        echo " or ";
+        //echo " or ";
         //        echo "<script language='JavaScript' src='js/AJAX/login.js' type='text/javascript'/>";
-        echo "<a class='important'onclick='ShowRegPage()'> Register </a>";
+        //echo "<a class='important'onclick='ShowRegPage()'> Register </a>";
         // echo '<a href="' . $_SERVER['SCRIPT_NAME'] . '?action=register">Register new account</a>';
         if ($this->feedback) {
             echo "<br/>" . $this->feedback;

@@ -405,10 +405,13 @@ class bookmarksAccessor
     $query->bindValue(':bookmark_date', $bookmark_date);
     if($query->execute())
     {
+	echo "success";
       return true;
     }
     else
     {
+	echo "fail";
+	echo json_encode($query->errorInfo());
       return false;
     }
   }
