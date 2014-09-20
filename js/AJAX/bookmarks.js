@@ -75,12 +75,11 @@ function RemoveBookmark(bookmark_id)
     }
   );
 }
-function AddCurrentUserBookmark()
+function AddCurrentUserBookmark(callback)
 {
   $.ajax(
 	{
 	url: "php/bookmarks/addCurrentUserBookmark.php",
-	success: function(evt){console.log(evt);}
+	success: function(evt){callback();}
 	});
-console.log("makes it past this call");
 }

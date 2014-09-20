@@ -276,7 +276,7 @@ strong {
 .settings-toggle {
   -webkit-animation: slide-left 500ms cubic-bezier(0.65, -1, 0.25, 1.75);
   -webkit-filter: saturate(1);
-  background: rgba(0, 70, 46, 0.95) url(../images/settings.svg) no-repeat center;
+  background: rgba(0, 70, 46, 0.95) url(../images/account-login-orange.svg) no-repeat center;
   background-size: 1.25rem 1.25rem;
   color: #00ba63;
   cursor: pointer;
@@ -576,6 +576,32 @@ label.css-label {
 
 .tags-list::-webkit-scrollbar-thumb {
   background: rgba(241, 129, 95, 1); }
+
+
+/*====================================================
+    Add Bookmark Button
+====================================================*/
+
+.add-bookmark {
+
+  float: left;
+  margin-left: 1rem;
+  margin-top: -.25rem;
+  position: relative;
+  text-align: left;
+  z-index: 7999;
+
+  -webkit-filter: saturate(0);
+  background: url(../images/plus-orange.svg) no-repeat center;
+  background-size: contain;
+  cursor: pointer;
+  display: block;
+  height: 1.25rem;
+  transition: -webkit-filter 100ms ease-in-out;
+  width: 1.25rem; }
+
+.add-bookmark:hover {
+  -webkit-filter: saturate(1); }
 
 /*====================================================
     Link Panel Grid Layout

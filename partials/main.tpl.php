@@ -76,6 +76,14 @@
       </ui>
     </div>
 
+    <?php if($login->getUserLoginStatus() == 1)
+     echo "
+    <div>
+      <a class='add-bookmark' ng-click='addBookmark()'></a>
+    </div>
+    "; else echo "";
+    ?>
+
     <ul class="sort">
       <li ng-cloak>
         <p>Sort:</p>

@@ -33,6 +33,11 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
   $scope.hideTopLevelFolders = false;
   $scope.showThumbnails = true;
 
+  $scope.addBookmark = function()
+  {
+    AddCurrentUserBookmark(loadBookmarks);
+  }
+
   // Auto add showing bookmarks when user scroll to page down
   var loadMorePlaceholder = $('#loadMorePlaceholder').get(0);
   $(window).scroll(function () {
@@ -118,7 +123,8 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
         $scope.selectedIndex -= $scope.itemsPerRow;
         updated = true;
       }
-    } else if(e.which === 32 && e.shiftKey) {AddCurrentUserBookmark();}
+    }
+    // else if(e.which === 32 && e.shiftKey) {AddCurrentUserBookmark();}
     if (updated) { // right arrow, left arrow, down arrow, up arrow, tab, and shift+tab key pressed - select next element
       $scope.$apply();
       var cards = getAllCards();
