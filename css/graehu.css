@@ -315,7 +315,8 @@ strong {
 
 .settings {
   /*background: green;*/
-  background: rgba(0, 70, 46, 0.95);
+  /*background: rgba(0, 70, 46, 0.95);*/
+  background: rgba(0, 50, 26, 0.95);
   height: 100vh;
   list-style: none;
   opacity: 0;
@@ -881,7 +882,8 @@ label.css-label {
 
 .modal {
   /*background: rgba(36, 45, 50, 0.95);*/
-  background: rgba(0, 70, 46, 0.95);
+  /*background: rgba(0, 70, 46, 0.95);*/
+  background: rgba(0, 50, 26, 0.95);
   bottom: 0;
   display: block;
   left: 0;
