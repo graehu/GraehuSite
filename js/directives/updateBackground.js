@@ -22,7 +22,7 @@ var myUpdateBackgroundFactory = function(appSettings) {
 
         if (appSettings.showThumbnails) {
           backgrounds.push(
-            'url(\'http://api.snapito.io/v2/webshot/spu-611151-o3bp-du0ixqlrpknnlggm?url=' +
+            'url(\'http://api.snapito.io/v2/webshot/spu-913309-tx3f-zfnbbpfrpzeeom7i?url=' +
               encodeURIComponent(scope.bookmark.url) +
               '&size=250x188&screen=1000x752&quality=low&type=jpg\')'
           );
