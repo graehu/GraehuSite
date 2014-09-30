@@ -13,7 +13,7 @@ pids
 logs
 
 node_modules/
-unversioned/
+uv/
 
 # Created by http://www.gitignore.io
 
