@@ -316,21 +316,24 @@ strong {
 .settings {
   /*background: green;*/
   /*background: rgba(0, 70, 46, 0.95);*/
-  background: rgba(0, 50, 26, 0.95);
+  /*background: rgba(0, 50, 26, 0.95);
   height: 100vh;
   list-style: none;
   opacity: 0;
   padding: 0 8%;
   position: fixed;
   top: 0;
-  visibility: hidden;
+  -webkit-transform: scale(1);
+  visibility: visible;
+  opacity: 1;
   width: 100%;
-  z-index: 9020;
-  -webkit-transform-origin: center;
-  -webkit-transform: scale(0.8);
+  z-index: 9020;*/
+  /*-webkit-transform-origin: center;*/
+  /*-webkit-transform: scale(0.8);
   transition: opacity 200ms ease, visibility 200ms ease,
               -webkit-transform 200ms cubic-bezier(0, 0, 0, 1);
-  -webkit-will-change: opacity, visibility, -webkit-transform; }
+  -webkit-will-change: opacity, visibility, -webkit-transform;*/
+  }
 
 .open {
   -webkit-transform: scale(1);
@@ -348,7 +351,8 @@ strong {
   margin: 25vh auto;
   min-height: 16rem;
   position: relative;
-  width: 35rem; }
+  width: 35rem;
+  }
 
 .col-1,
 .col-2 {

@@ -124,7 +124,6 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
         updated = true;
       }
     }
-    // else if(e.which === 32 && e.shiftKey) {AddCurrentUserBookmark();}
     if (updated) { // right arrow, left arrow, down arrow, up arrow, tab, and shift+tab key pressed - select next element
       $scope.$apply();
       var cards = getAllCards();
@@ -359,10 +358,20 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
       }).value();
   };
 
-  $scope.toggleSettings = function() {
-    $( ".grid, .nav-wrap" ).toggleClass( "scale-blur" );
-    $( ".settings" ).toggleClass( "open" );
-    $( "body" ).toggleClass( "no-scroll" );
+  $scope.toggleLogin = function() {
+    $(".nav-wrap, .grid").addClass("scale-blur");
+
+    var modalInstance = $modal.open({
+      templateUrl: 'partials/login.tpl.php',
+      controller: 'loginController',
+      keyboard: true,
+      backdrop: false
+    });
+    modalInstance.result.then(function () {
+       $(".nav-wrap, .grid").removeClass("scale-blur");
+    }, function() {
+       $(".nav-wrap, .grid").removeClass("scale-blur");
+    });
   };
 };
 

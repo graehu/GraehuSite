@@ -18,13 +18,11 @@
         </li>
       </ul>
     </script>
-
     <script id="template/modal/window.html" type="text/ng-template">
       <div tabindex="-1" class="modal fade {{ windowClass }}" ng-class="{in: animate}" ng-click="close($event)">
-          <div class="modal-dialog" ng-transclude></div>
+      <div ng-transclude></div>
       </div>
     </script>
-
   </head>
   <body>
 
