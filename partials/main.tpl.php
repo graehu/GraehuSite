@@ -1,5 +1,4 @@
 <main id="mainContent">
-  <script src="js/AJAX/bookmarks.js"/>
   <header class="nav-wrap">
     <nav class="search-wrap">
       <form class="search" role="search">
@@ -17,8 +16,6 @@
     <a class="settings-toggle"
        ng-click="toggleLogin()"></a>
   </header>
-
-
   <div class="grid">
 
     <div class="tags-wrap">
@@ -36,9 +33,6 @@
         <a ng-repeat="order in orders" ng-class="{ 'sort-active': order == currentOrder }" ng-click="changeOrder(order)">{{order.title}}</a>
       </li>
     </ul>
-
-
-
     <ul class="list-bookmarks">
       <li ng-repeat="bookmark in (filteredBookmarks | orderBy:currentOrder.value | limitTo:totalDisplayed)" ng-cloak>
 

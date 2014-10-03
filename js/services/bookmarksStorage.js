@@ -188,7 +188,7 @@ var BookmarksStorage = function () {
 
 var loadBookmarksFromFile = function(callback)
 {
-  GetTaggedBookmarks(callback);
+  //GetTaggedBookmarks(callback);
   // jQuery.get('bookmarks.json', function(data)
   // {
   //    callback(data);
@@ -210,7 +210,7 @@ var loadBookmarksFromFile = function(callback)
 
     if (_.keys(update).length > 0) {  // If we have something to change (title or url) let's do it
       update.bookmark_id = bookmark.id;
-      UpdateBookmark(update);
+      //UpdateBookmark(update);
       //chrome.bookmarks.update(bookmark.id, update);
       _.extend(bookmark, update);  // Copy all updates to bookmark after updating chrome bookmarks
     }
@@ -221,7 +221,7 @@ var loadBookmarksFromFile = function(callback)
       var tagsUpdate = {}
       tagsUpdate.bookmark_id = bookmark.id;
       tagsUpdate.tags = changes.customTags;
-      UpdateBookmarkTags(tagsUpdate);
+      //UpdateBookmarkTags(tagsUpdate);
       //saveCustomTags(bookmark.url, changes.customTags);
       //fillBookmarkWithCustomTags(bookmark);
       _.each(changes.customTags, function(tag){
@@ -236,7 +236,7 @@ var loadBookmarksFromFile = function(callback)
   this.remove = function(bookmark) {
     //removeCustomTags(bookmark.url);
     //chrome.bookmarks.remove(bookmark.id);
-    RemoveBookmark({bookmark_id:bookmark.id});
+    //RemoveBookmark({bookmark_id:bookmark.id});
   };
 
   /*

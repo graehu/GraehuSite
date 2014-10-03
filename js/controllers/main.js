@@ -9,8 +9,9 @@ function(_, $) { 'use strict';
 /*
 * Application controller.
 */
-var MainController = function($scope, $filter, $modal, bookmarksStorage, appSettings, booleanSearchEngine) {
+var MainController = function($scope, $filter, $modal, bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer) {
 
+  console.log(bookmarkServer);
   // Constant: default value of how many items we want to display on main page.
   var defaultTotalDisplayed = 20;
 
@@ -35,7 +36,7 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
 
   $scope.addBookmark = function()
   {
-    AddCurrentUserBookmark(loadBookmarks);
+    bookmarkServer.AddBookmark(loadBookmarks);
   }
 
   // Auto add showing bookmarks when user scroll to page down
@@ -141,9 +142,11 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
   });
 
   var loadBookmarks = function() {
-    bookmarksStorage.getAll(function(bookmarks, setttings) {
-      $scope.hideTopLevelFolders = appSettings.hideTopLevelFolders = setttings.hideTopLevelFolders;
-      $scope.showThumbnails = appSettings.showThumbnails = setttings.showThumbnails;
+
+    bookmarkServer.GetTaggedBookmarks(function(bookmarks)
+    {
+      $scope.hideTopLevelFolders = appSettings.hideTopLevelFolders = false;
+      $scope.showThumbnails = appSettings.showThumbnails = true;
       $scope.bookmarks = bookmarks;
       $scope.filteredBookmarks = bookmarks;
 
@@ -382,6 +385,7 @@ return [
   'bookmarksStorage',
   'appSettings',
   'booleanSearchEngine',
+  'bookmarkServer',
   MainController
 ];
 
