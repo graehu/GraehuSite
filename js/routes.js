@@ -5,6 +5,10 @@ define(
 function() { 'use strict';
 
 var routesConfiguration = function($routeProvider, $locationProvider) {
+  $routeProvider.when('/main/:searchText', {
+    templateUrl: 'partials/main.tpl.php',
+    controller: 'mainController'
+  });
   $routeProvider.when('/main', {
     templateUrl: 'partials/main.tpl.php',
     controller: 'mainController'

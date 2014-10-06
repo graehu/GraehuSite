@@ -9,7 +9,7 @@ function(_, $) { 'use strict';
 /*
 * Application controller.
 */
-var MainController = function($scope, $filter, $modal, bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer, loginServer) {
+var MainController = function($scope, $routeParams, $filter, $modal, bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer, loginServer) {
 
   // Constant: default value of how many items we want to display on main page.
   var defaultTotalDisplayed = 20;
@@ -33,6 +33,8 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
   $scope.hideTopLevelFolders = false;
   $scope.showThumbnails = true;
   $scope.loggedIn = false;
+
+
 
   $scope.addBookmark = function()
   {
@@ -155,6 +157,8 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
 
   var loadBookmarks = function() {
 
+
+
     bookmarkServer.GetTaggedBookmarks(function(bookmarks)
     {
       $scope.hideTopLevelFolders = appSettings.hideTopLevelFolders = false;
@@ -170,8 +174,19 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
                           return {tagText: text,  numberOfTags: tagsArray.length };
                       })
                       .value();
-
-
+      //only happens once.
+      if($routeParams.searchText)
+      {
+        $scope.searchText = $routeParams.searchText;
+        $scope.filteredBookmarks =
+          _.filter(
+            $scope.bookmarks,
+            function(bookmark){
+              return booleanSearchEngine.filterBookmark(bookmark, $routeParams.searchText);
+            }
+          );
+          $routeParams.searchText = null;
+      }
       // ARG: improve in future
       // applyTagsAsString(bookmarks);
       if(!$scope.$$phase) {
@@ -396,6 +411,7 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
 
 return [
   '$scope',
+  '$routeParams',
   '$filter',
   '$modal',
   'bookmarksStorage',
