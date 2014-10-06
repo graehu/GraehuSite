@@ -382,10 +382,14 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
       keyboard: true,
       backdrop: false
     });
-    modalInstance.result.then(function () {
-       $(".nav-wrap, .grid").removeClass("scale-blur");
-    }, function() {
-       $(".nav-wrap, .grid").removeClass("scale-blur");
+    modalInstance.result.then(function ()
+    {
+      updateLoginStatus();
+      $(".nav-wrap, .grid").removeClass("scale-blur");
+    }, function()
+    {
+      updateLoginStatus();
+      $(".nav-wrap, .grid").removeClass("scale-blur");
     });
   };
 };
