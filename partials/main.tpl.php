@@ -26,7 +26,9 @@
         </li>
       </ui>
     </div>
-    <a class='add-bookmark' ng-click='addBookmark()'></a>
+    <!-- TODO: remove following <a> when not logged in -->
+    <a ng-if="loggedIn" class='add-bookmark' ng-click='addBookmark()'></a>
+
     <ul class="sort">
       <li ng-cloak>
         <p>Sort:</p>
@@ -35,10 +37,10 @@
     </ul>
     <ul class="list-bookmarks">
       <li ng-repeat="bookmark in (filteredBookmarks | orderBy:currentOrder.value | limitTo:totalDisplayed)" ng-cloak>
-
-        <div class="card" ng-class="{'card-primary': ($index == selectedIndex), 'card-small': !showThumbnails}" ng-click="selectBookmark($index)">
-          <!-- If you're logged in you can edit bookmarks -->
-          <div class="edit-toggle" ng-click="editBookmark(bookmark)"></div>
+        <!-- TODO: remove class="card" when not logged in -->
+        <div ng-class="{'card': loggedIn,'card-primary': ($index == selectedIndex), 'card-small': !showThumbnails}" ng-click="selectBookmark($index)">
+          <!-- TODO: remove following <div> when not logged in -->
+          <div ng-if="loggedIn" class="edit-toggle" ng-click="editBookmark(bookmark)"></div>
           <a class="bookmark-link" href="{{bookmark.url}}"></a>
 
           <div class="thumbnail-loading" style="background: white url(images/loader.gif) no-repeat center center;" title="{{bookmark.url}}"></div>

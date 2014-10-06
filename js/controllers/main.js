@@ -9,9 +9,8 @@ function(_, $) { 'use strict';
 /*
 * Application controller.
 */
-var MainController = function($scope, $filter, $modal, bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer) {
+var MainController = function($scope, $filter, $modal, bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer, loginServer) {
 
-  console.log(bookmarkServer);
   // Constant: default value of how many items we want to display on main page.
   var defaultTotalDisplayed = 20;
 
@@ -33,11 +32,24 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
 
   $scope.hideTopLevelFolders = false;
   $scope.showThumbnails = true;
+  $scope.loggedIn = false;
 
   $scope.addBookmark = function()
   {
     bookmarkServer.AddBookmark(loadBookmarks);
   }
+
+  var updateLoginStatus = function()
+  {
+    loginServer.isLoggedIn(function(loggedIn)
+    {
+      if(loggedIn === '1')
+        $scope.loggedIn =  true;
+      else
+        $scope.loggedIn =  false;
+    });
+  };
+  updateLoginStatus();
 
   // Auto add showing bookmarks when user scroll to page down
   var loadMorePlaceholder = $('#loadMorePlaceholder').get(0);
@@ -363,7 +375,7 @@ var MainController = function($scope, $filter, $modal, bookmarksStorage, appSett
 
   $scope.toggleLogin = function() {
     $(".nav-wrap, .grid").addClass("scale-blur");
-
+    $( ".settings" ).toggleClass( "no-scroll" );
     var modalInstance = $modal.open({
       templateUrl: 'partials/login.tpl.php',
       controller: 'loginController',
@@ -386,6 +398,7 @@ return [
   'appSettings',
   'booleanSearchEngine',
   'bookmarkServer',
+  'loginServer',
   MainController
 ];
 

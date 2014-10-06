@@ -4,9 +4,10 @@ define(
 './bookmarksStorage',
 './booleanSearchEngine',
 './settings',
-'./bookmarkServer'
+'./bookmarkServer',
+'./loginServer'
 ],
-function(angular, bookmarksStorage, booleanSearchEngine, settings, bookmarkServer) { 'use strict';
+function(angular, bookmarksStorage, booleanSearchEngine, settings, bookmarkServer, loginServer) { 'use strict';
 
 // Creates new module 'dewey.filters'
 var module = angular.module('dewey.services', []);
@@ -17,11 +18,11 @@ module.factory('bookmarksStorage', bookmarksStorage);
 // Register booleanSearchEngine service
 module.factory('booleanSearchEngine', booleanSearchEngine);
 
-// Register login service
-// module.factory('loginServer', login);
-
 // Register bookmarks service
 module.factory('bookmarkServer', bookmarkServer);
+
+// Register login service
+module.factory('loginServer', loginServer);
 
 // Register settings service
 module.value('appSettings', settings);

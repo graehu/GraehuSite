@@ -902,7 +902,8 @@ label.css-label {
   top: 9.375rem;
   width: 2rem;
   z-index: 7020;
-  transition: opacity 400ms ease; }
+  transition: opacity 400ms ease;
+  }
 
 .edit-toggle:hover {
   opacity: 1; }
