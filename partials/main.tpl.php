@@ -38,7 +38,7 @@
     <ul class="list-bookmarks">
       <li ng-repeat="bookmark in (filteredBookmarks | orderBy:currentOrder.value | limitTo:totalDisplayed)" ng-cloak>
         <!-- TODO: remove class="card" when not logged in -->
-        <div ng-class="{'card': loggedIn,'card-primary': ($index == selectedIndex), 'card-small': !showThumbnails}" ng-click="selectBookmark($index)">
+        <div class="card" ng-class="{'card-edit': loggedIn, 'card-primary': ($index == selectedIndex), 'card-small': !showThumbnails}" ng-click="selectBookmark($index)">
           <!-- TODO: remove following <div> when not logged in -->
           <div ng-if="loggedIn" class="edit-toggle" ng-click="editBookmark(bookmark)"></div>
           <a class="bookmark-link" href="{{bookmark.url}}"></a>
