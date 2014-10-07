@@ -70,22 +70,8 @@ class bookmarksAccessor
       if(empty($a)) session_start();
       if($_SESSION["user_is_logged_in"])
       {
-        $this->addBookmark($_SESSION["user_id"], "Title", "Url", strtotime("now"));
+        $this->addBookmark($_SESSION["user_id"], "", "", "", strtotime("now"));
       }else echo "fail";
-    }
-  }
-
-  public function addDummyValues()
-  {
-    if ($this->createDatabaseConnection())
-    {
-      $this->addTag("Erin");
-      $this->addTag("Graehu");
-      $this->addBookmark(1, "pinterest", "www.pinterest.com", strtotime("now"));
-      $this->addBookmark(2, "google", "www.google.com",strtotime("now"));
-      $this->addBookmarkTag(1, 1);
-      $this->addBookmarkTag(2, 1);
-      $this->addBookmarkTag(2, 2);
     }
   }
   public function getBookMarksWithTagsInJson()
@@ -223,6 +209,7 @@ class bookmarksAccessor
         $bookmark->user_id = $bookmarks["bookmarks"][$ii]->user_id;
         $bookmark->title = $bookmarks["bookmarks"][$ii]->bookmark_title;
         $bookmark->url = $bookmarks["bookmarks"][$ii]->bookmark_url;
+        $bookmark->imgurl = $bookmarks["bookmarks"][$ii]->bookmark_imgurl;
         $bookmark->date = $bookmarks["bookmarks"][$ii]->bookmark_date;
 
         $bookmark->tags = array();
@@ -273,6 +260,12 @@ class bookmarksAccessor
         {
           if($sqlset != "") $sqlset = $sqlset . ", ";
           $sqlset = $sqlset."bookmark_url="."'".$update["bookmark_url"]."'";
+        }
+
+        if(array_key_exists("bookmark_imgurl", $update))
+        {
+          if($sqlset != "") $sqlset = $sqlset . ", ";
+          $sqlset = $sqlset."bookmark_imgurl="."'".$update["bookmark_imgurl"]."'";
         }
 
         if(array_key_exists("bookmark_date", $update))
@@ -393,15 +386,16 @@ class bookmarksAccessor
       return false;
     }
   }
-  private function addBookmark($user_id, $bookmark_title, $bookmark_url, $bookmark_date)
+  private function addBookmark($user_id, $bookmark_title, $bookmark_url, $bookmark_imgurl, $bookmark_date)
   {
-    $sql = 'INSERT INTO bookmarks ("user_id", "bookmark_title", "bookmark_url", "bookmark_date")
-    VALUES (:user_id, :bookmark_title, :bookmark_url, :bookmark_date)';
+    $sql = 'INSERT INTO bookmarks ("user_id", "bookmark_title", "bookmark_url", "bookmark_imgurl", "bookmark_date")
+    VALUES (:user_id, :bookmark_title, :bookmark_url, :bookmark_imgurl, :bookmark_date)';
 
     $query = $this->db_connection->prepare($sql);
     $query->bindValue(':user_id', $user_id);
     $query->bindValue(':bookmark_title', $bookmark_title);
     $query->bindValue(':bookmark_url', $bookmark_url);
+    $query->bindValue(':bookmark_imgurl', $bookmark_imgurl);
     $query->bindValue(':bookmark_date', $bookmark_date);
     if($query->execute())
     {

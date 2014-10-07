@@ -16,6 +16,13 @@
             placeholder="Bookmark URL"
             tabindex="20"
             ng-model="bookmarkModel.url" >
+        <a class="launch" href="{{bookmarkModel.imgurl}}" target="_blank"></a>
+        <input type="text"
+            id="textBoxImgURL"
+            class="url-input"
+            placeholder="Image URL"
+            tabindex="30"
+            ng-model="bookmarkModel.imgurl" >
       </div >
       <div class="form-group tags">
          <ul class="list-inline">
@@ -34,9 +41,9 @@
         </ul>
       </div>
     <div class="modal-footer">
-      <a class="delete" ng-click="delete()" tabindex="40">Delete</a>
-      <a class="cancel" ng-click="cancel()" tabindex="50">Cancel</a>
-      <a class="save" ng-click="save()" tabindex="30">Save</a>
+      <a class="delete" ng-click="delete()" tabindex="50">Delete</a>
+      <a class="cancel" ng-click="cancel()" tabindex="60">Cancel</a>
+      <a class="save" ng-click="save()" tabindex="40">Save</a>
     </div>
   </div>
 </div>

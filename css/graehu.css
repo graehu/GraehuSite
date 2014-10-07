@@ -792,6 +792,37 @@ label.css-label {
 .card-small .edit-toggle {
   top: 1.75rem; }
 
+
+/*====================================================
+    Special Styles for Links to archives
+====================================================*/
+
+.thumbnail[title$=".7z"] {
+  background: white url(../images/zip.svg) !important;
+  background-position: center !important; }
+
+.card-small .thumbnail[title$=".7z"] {
+  background: rgba(241, 129, 95, 1) !important; }
+
+.favicon[src$=".7z?defaulticon=lightpng"] {
+  content: url(../images/link.svg); }
+
+
+  /*====================================================
+      Special Styles for Links to archives
+  ====================================================*/
+
+  .thumbnail[title$=".zip"] {
+    background: white url(../images/zip.svg) !important;
+    background-position: center !important; }
+
+  .card-small .thumbnail[title$=".zip"] {
+    background: rgba(241, 129, 95, 1) !important; }
+
+  .favicon[src$=".zip?defaulticon=lightpng"] {
+    content: url(../images/link.svg); }
+
+
 /*====================================================
     Special Styles for Links to PDFs
 ====================================================*/
@@ -1021,7 +1052,7 @@ label.css-label {
   color: rgba(255, 255, 255, 0.25);
   font-size: .825rem;
   height: 3rem;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.25rem;
   overflow: hidden;
   padding-left: 2.75rem;
   text-overflow: ellipsis;

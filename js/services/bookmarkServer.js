@@ -101,6 +101,11 @@ var BookmarkServer = function()
       update.bookmark_url = changes.url;
     }
 
+    if (changes.imgurl !== bookmark.imgurl) {  // If imgurl is different add it to update
+      update.imgurl = changes.imgurl;
+      update.bookmark_imgurl = changes.imgurl;
+    }
+
     if (changes.title !== bookmark.title) {  // If title different add it to update
       update.title = changes.title;
       update.bookmark_title = changes.title;

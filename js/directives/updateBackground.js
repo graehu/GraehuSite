@@ -21,11 +21,20 @@ var myUpdateBackgroundFactory = function(appSettings) {
         var backgrounds = [];
 
         if (appSettings.showThumbnails) {
-          backgrounds.push(
-            'url(\'http://api.snapito.io/v2/webshot/spu-913309-tx3f-zfnbbpfrpzeeom7i?url=' +
-              encodeURIComponent(scope.bookmark.url) +
-              '&size=250x188&screen=1000x752&quality=low&type=jpg\')'
-          );
+          if(scope.bookmark.imgurl)
+          {
+            backgrounds.push(
+              'url('+scope.bookmark.imgurl+')'
+            );
+          }
+          else
+          {
+            backgrounds.push(
+              'url(\'http://api.snapito.io/v2/webshot/spu-913309-tx3f-zfnbbpfrpzeeom7i?url=' +
+                scope.bookmark.url +
+                '&size=250x188&screen=1000x752&quality=low&type=jpg\')'
+            );
+          }
         }
 
         backgrounds.push(color ? 'rgb(' + color.join(',') + ')' : 'white');
