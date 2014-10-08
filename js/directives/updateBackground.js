@@ -26,6 +26,7 @@ var myUpdateBackgroundFactory = function(appSettings) {
             backgrounds.push(
               'url('+scope.bookmark.imgurl+')'
             );
+            color = [256, 256, 256];
           }
           else
           {
