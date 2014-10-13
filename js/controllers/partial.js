@@ -1,6 +1,7 @@
 define(
 [
-  'jQuery'
+  'jQuery',
+  'unity-webplayer'
 ],
 function($) { 'use strict';
 var PartialController = function ($scope, $modalInstance)

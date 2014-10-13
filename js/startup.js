@@ -24,7 +24,8 @@ require.config({
     'bootstrap-tagsinput': '../bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput',
     'bootstrap-tagsinput-angular': 'lib/bootstrap-tagsinput-angular',
     'ui.bootstrap': '../bower_components/ui-bootstrap/dist/ui-bootstrap-custom-tpls-0.10.0',
-    'color-thief': '../bower_components/color-thief/js/color-thief'
+    'color-thief': '../bower_components/color-thief/js/color-thief',
+    'unity-webplayer':'../bower_components/unity-webplayer/unity-webplayer'
   },
   shim: {
     'jQuery': {
@@ -55,6 +56,10 @@ require.config({
     },
     'color-thief': {
       exports: 'ColorThief'
+    },
+    'unity-webplayer': {
+      deps:['jQuery'],
+      exports: 'unity-webplayer'
     }
   }
 });
