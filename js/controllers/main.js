@@ -321,9 +321,25 @@ var MainController = function($scope, $routeParams, $filter, $modal, bookmarksSt
     var result = $scope.filteredBookmarks;
     if (result.length > $scope.selectedIndex) {
       var bookmarkUrl = $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].url;
-      window.open(bookmarkUrl);
-    }
+      if(bookmarkUrl.substring(0, 8) == "partial:")
+      {
+        var modalInstance = $modal.open({
+          templateUrl: bookmarkUrl.slice(8),
+          controller: 'partialController',
+          keyboard: true,
+          backdrop: false
+        });
 
+        modalInstance.result.then(function ()
+        {
+          //fix stylings if I add any
+        }, function()
+        {
+          //fix stylings if I add any
+        });
+      }
+      else window.open(bookmarkUrl);
+    }
   };
 
   $scope.setHideTopLevelFolders = function() {

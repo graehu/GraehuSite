@@ -3,9 +3,10 @@ define(
 'angular',
 './main',
 './editBookmark',
-'./login'
+'./login',
+'./partial'
 ],
-function(angular, mainCtrl, editBookmarkCtrl, loginCtrl) { 'use strict';
+function(angular, mainCtrl, editBookmarkCtrl, loginCtrl, partialCtrl) { 'use strict';
 
 // Creates `dewey.controllers` module
 var module = angular.module('dewey.controllers', ['dewey.services']);
@@ -16,7 +17,10 @@ module.controller('mainController', mainCtrl);
 // Register editBookmark controller
 module.controller('editBookmarkController', editBookmarkCtrl);
 
-//Register settings controllers
+//Register login controller
 module.controller('loginController', loginCtrl);
+
+//Register partial controller
+module.controller('partialController', partialCtrl);
 
 });
