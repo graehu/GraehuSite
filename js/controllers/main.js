@@ -94,7 +94,7 @@ var MainController = function($scope, $routeParams, $filter, $modal, bookmarksSt
 
     var updated = false;
     if (e.which == 13) { // Cmd/Ctrl + Enter press on page - open link in new window
-      _gaq.push(['_trackEvent', 'Navigation', 'keydown', 'Navigation via enter']);
+      //_gaq.push(['_trackEvent', 'Navigation', 'keydown', 'Navigation via enter']);
 
       // If first pattern is not our filter let's assume that user wants to search on this domain
       var match = /^(\w+)(\.\w+)?:(.+)/i.exec($scope.searchText);
@@ -314,6 +314,16 @@ var MainController = function($scope, $routeParams, $filter, $modal, bookmarksSt
 
   $scope.selectBookmark = function(index) {
     $scope.selectedIndex = index;
+  };
+  $scope.clickBookmark = function(index) {
+    $scope.selectedIndex = index;
+
+    var result = $scope.filteredBookmarks;
+    if (result.length > $scope.selectedIndex) {
+      var bookmarkUrl = $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].url;
+      window.open(bookmarkUrl);
+    }
+
   };
 
   $scope.setHideTopLevelFolders = function() {

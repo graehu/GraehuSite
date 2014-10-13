@@ -41,7 +41,7 @@
         <div class="card" ng-class="{'card-edit': loggedIn, 'card-primary': ($index == selectedIndex), 'card-small': !showThumbnails}" ng-click="selectBookmark($index)">
           <!-- TODO: remove following <div> when not logged in -->
           <div ng-if="loggedIn" class="edit-toggle" ng-click="editBookmark(bookmark)"></div>
-          <a class="bookmark-link" href="{{bookmark.url}}"></a>
+          <a class="bookmark-link" ng-click="clickBookmark($index)"></a>
 
           <div class="thumbnail-loading" style="background: white url(images/loader.gif) no-repeat center center;" title="{{bookmark.url}}"></div>
 
