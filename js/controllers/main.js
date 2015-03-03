@@ -161,6 +161,15 @@ var MainController = function($scope, $routeParams, $filter, $modal, bookmarksSt
 
     bookmarkServer.GetTaggedBookmarks(function(bookmarks)
     {
+
+      bookmarks.forEach(function (bookmark)
+      {
+        if(bookmark.url.indexOf("partial:") !== -1)
+          bookmark.iconurl = "graehu.com";
+        else
+          bookmark.iconurl = bookmark.url;
+      });
+
       $scope.hideTopLevelFolders = appSettings.hideTopLevelFolders = false;
       $scope.showThumbnails = appSettings.showThumbnails = true;
       $scope.bookmarks = bookmarks;

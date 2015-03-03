@@ -120,6 +120,7 @@ var BookmarksStorage = function () {
                   id: c.id
               };
 
+
               _.each(tags, function(tag) {
                 bookmark.tag.push({text: tag, custom: false});
               });

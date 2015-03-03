@@ -47,7 +47,7 @@
 
           <div class="details">
 
-            <img class="favicon" src="http://grabicon.com/icon?domain={{bookmark.url}}&defaulticon=lightpng" my-update-background crossOrigin="anonymous" />
+            <img class="favicon" src="http://grabicon.com/icon?domain={{bookmark.iconurl}}&defaulticon=lightpng" my-update-background crossOrigin="anonymous" />
             <h2>{{bookmark.title}}</h2>
 
             <div class="tag-links">

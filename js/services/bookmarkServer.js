@@ -11,7 +11,6 @@ var BookmarkServer = function()
 {
   this.GetTaggedBookmarks = function (callback)
   {
-  console.log("calling GetTaggedBookmarks");
     $.ajax(
       {
         url: "php/bookmarks/getTaggedBookmarks.php",
@@ -19,7 +18,7 @@ var BookmarkServer = function()
         dataType : "json",
         success: function(evt)
         {
-           console.log(evt);
+          //  console.log(evt);
           callback(evt);
         }
       }
@@ -35,7 +34,7 @@ var BookmarkServer = function()
         dataType : "json",
         success: function(evt)
         {
-           console.log(evt);
+          //  console.log(evt);
           callback(evt);
         }
       }
@@ -51,7 +50,7 @@ var BookmarkServer = function()
         data: update,
         success: function(evt)
         {
-           console.log(evt);
+          //  console.log(evt);
         }
       }
     );
@@ -66,7 +65,7 @@ var BookmarkServer = function()
         data: update,
         success: function(evt)
         {
-           console.log(evt);
+          //  console.log(evt);
         }
       }
     );
@@ -80,7 +79,7 @@ var BookmarkServer = function()
         data: bookmark_id,
         success: function(evt)
         {
-          console.log(evt);
+          // console.log(evt);
         }
       }
     );

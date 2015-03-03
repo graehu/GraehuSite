@@ -14,7 +14,7 @@ function LogIn()
 {
   var input_user_name = $("#login_input_username").val();
   var input_user_password = $("#login_input_password").val();
-  console.log(input_user_name,input_user_password);
+  // console.log(input_user_name,input_user_password);
   $.ajax({
     type: "POST",
     url:"php/login.php",
@@ -77,7 +77,7 @@ function GetUserStatus()
   $.ajax({
     url:"php/login.php",
     data:{functionname:"getUserLoginStatus"},
-    success:function(evt){console.log(evt);},
+    success:function(evt){/*console.log(evt);*/},
     error:function(evt){console.log(evt);}
   });
 }
