@@ -26,14 +26,12 @@ var myUpdateBackgroundFactory = function(appSettings) {
             backgrounds.push(
               'url('+scope.bookmark.imgurl+')'
             );
-            color = [256, 256, 256];
+            color = [128, 128, 128];
           }
           else
           {
             backgrounds.push(
-              'url(\'http://api.snapito.io/v2/webshot/spu-913309-tx3f-zfnbbpfrpzeeom7i?url=' +
-                scope.bookmark.url +
-                '&size=250x188&screen=1000x752&quality=low&type=jpg\')'
+              'url('+'images/graehu-logo.png'+')'
             );
           }
         }
