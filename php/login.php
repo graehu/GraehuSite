@@ -130,7 +130,10 @@ class OneFileLoginApplication
      */
     private function doStartSession()
     {
+      if(session_id() == '' || !isset($_SESSION))
+      {
         session_start();
+      }
     }
 
     /**

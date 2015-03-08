@@ -25,6 +25,7 @@ require.config({
     'bootstrap-tagsinput-angular': 'lib/bootstrap-tagsinput-angular',
     'ui.bootstrap': '../bower_components/ui-bootstrap/dist/ui-bootstrap-custom-tpls-0.10.0',
     'color-thief': '../bower_components/color-thief/js/color-thief',
+    'highlight':'../bower_components/highlight/highlight.pack',
     'unity-webplayer':'../bower_components/unity-webplayer/unity-webplayer'
   },
   shim: {
@@ -60,6 +61,10 @@ require.config({
     'unity-webplayer': {
       deps:['jQuery'],
       exports: 'unity-webplayer'
+    },
+    'highlight': {
+      deps:['jQuery'],
+      exports: 'highlight'
     }
   }
 });

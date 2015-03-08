@@ -9,7 +9,7 @@ function(_, $) { 'use strict';
 /*
 * Application controller.
 */
-var MainController = function($scope, $routeParams, $filter, $modal, bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer, loginServer) {
+var MainController = function($scope, $routeParams, $filter, $modal, $location ,bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer, loginServer) {
 
   // Constant: default value of how many items we want to display on main page.
   var defaultTotalDisplayed = 20;
@@ -161,7 +161,6 @@ var MainController = function($scope, $routeParams, $filter, $modal, bookmarksSt
 
     bookmarkServer.GetTaggedBookmarks(function(bookmarks)
     {
-
       bookmarks.forEach(function (bookmark)
       {
         if(bookmark.url.indexOf("partial:") !== -1)
@@ -195,6 +194,19 @@ var MainController = function($scope, $routeParams, $filter, $modal, bookmarksSt
             }
           );
           $routeParams.searchText = null;
+      }
+
+      if($routeParams.bookmark)
+      {
+        $scope.filteredBookmarks.forEach(
+          function(bookmark, i)
+          {
+            if(bookmark.title === $routeParams.bookmark)
+            {
+              console.log("success! " + i);
+              $scope.clickBookmark(i);
+            }
+          });
       }
       // ARG: improve in future
       // applyTagsAsString(bookmarks);
@@ -332,8 +344,12 @@ var MainController = function($scope, $routeParams, $filter, $modal, bookmarksSt
       var bookmarkUrl = $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].url;
       if(bookmarkUrl.substring(0, 8) == "partial:")
       {
+        //TODO: make it so as the path changes at the top WITHOUT reloading the page
+        //var title = $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].title;
+        //$location.path("/main/"+title);
+        var url =  "partials/"+bookmarkUrl.slice(8);
         var modalInstance = $modal.open({
-          templateUrl: bookmarkUrl.slice(8),
+          templateUrl: url,
           controller: 'partialController',
           keyboard: true,
           backdrop: false
@@ -449,6 +465,7 @@ return [
   '$routeParams',
   '$filter',
   '$modal',
+  '$location',
   'bookmarksStorage',
   'appSettings',
   'booleanSearchEngine',

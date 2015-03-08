@@ -1,7 +1,6 @@
 <div class="modal-body">
   <a class="close"
      ng-click="closeLogin()"></a>
-
   <div class="settings">
     <div class="settings-wrap">
       <ul class="col-1">
