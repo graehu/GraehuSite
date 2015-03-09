@@ -161,7 +161,10 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location, 
     {
       bookmarks.forEach(function (bookmark)
       {
-        if(bookmark.url.indexOf("partial:") !== -1)
+        if(bookmark.url.indexOf("partial:") !== -1 ||
+           bookmark.url.indexOf("youtube:") !== -1 ||
+           bookmark.url.indexOf("unity:") !== -1 ||
+           bookmark.url.indexOf("markdown:") !== -1)
           bookmark.iconurl = "graehu.com";
         else
           bookmark.iconurl = bookmark.url;
@@ -200,18 +203,18 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location, 
       }
 
       countItemsPerRow();
-      /*if($routeParams.bookmark)
+
+      if($routeParams.bookmark)
       {
-        bookmarks.forEach(
+        $filter('orderBy')($scope.filteredBookmarks, $scope.currentOrder.value).forEach(
         function(bookmark, i)
         {
           if(bookmark.title === $routeParams.bookmark)
-          {  
-            console.log("success! " + bookmark.title + i + $routeParams.bookmark);
+          {
             $scope.clickBookmark(i);
           }
         });
-      }*/
+      }
     }.bind(this));
   }.bind(this);
   loadBookmarks();
@@ -339,19 +342,25 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location, 
     var result = $scope.filteredBookmarks;
     if (result.length > $scope.selectedIndex) {
       var bookmarkUrl = $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].url;
+      var url = "";
+
       if(bookmarkUrl.substring(0, 8) == "partial:")
+        url =  "partials/"+bookmarkUrl.slice(8);
+      else if(bookmarkUrl.substring(0, 9) == "markdown:")
+        url = "partials/markdown.tpl.php?src="+bookmarkUrl.slice(9);
+      else if(bookmarkUrl.substring(0, 6) == "unity:")
+        url = "partials/unity.tpl.php?src="+bookmarkUrl.slice(6);
+      else if(bookmarkUrl.substring(0, 8) == "youtube:")
+        url = "partials/youtube.tpl.php?src="+bookmarkUrl.slice(8);
+
+      if(url)
       {
-        //TODO: make it so as the path changes at the top WITHOUT reloading the page
-        //var title = $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].title;
-        //$location.path("/main/"+title);
-        var url =  "partials/"+bookmarkUrl.slice(8);
         var modalInstance = $modal.open({
           templateUrl: url,
           controller: 'partialController',
           keyboard: true,
           backdrop: false
         });
-
         modalInstance.result.then(function ()
         {
           //fix stylings if I add any
