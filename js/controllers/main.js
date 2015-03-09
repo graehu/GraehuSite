@@ -52,6 +52,22 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location, 
     });
   };
   updateLoginStatus();
+  var scrollToSelected = function()
+  {
+    if(!$scope.$$phase) {
+        $scope.$apply();
+    }
+    var cards = getAllCards();
+    var selectedElement = cards.get($scope.selectedIndex);
+    if (selectedElement) {
+      var rect = selectedElement.getBoundingClientRect(); // If element is not visible - scroll to it
+      if (!(rect.top >= 0 && rect.left >= 0 && rect.bottom <= $(window).height() && rect.right <= $(window).width())) {
+        $("body").stop().animate({
+          scrollTop: ($(cards.get($scope.selectedIndex)).offset().top - $(cards.get(0)).offset().top)
+        }, 500);
+      }
+    }
+  }
 
   // Auto add showing bookmarks when user scroll to page down
   var loadMorePlaceholder = $('#loadMorePlaceholder').get(0);
@@ -87,73 +103,11 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location, 
   };
 
   // Key down events handlers
-  $('#mainContent').keydown(function(e) {
+  $('#mainContent').keydown(function(e)
+  {
     if (e.isDefaultPrevented()) {
       return;
-    }
-
-    var updated = false;
-    if (e.which == 13) { // Cmd/Ctrl + Enter press on page - open link in new window
-      //_gaq.push(['_trackEvent', 'Navigation', 'keydown', 'Navigation via enter']);
-
-      // If first pattern is not our filter let's assume that user wants to search on this domain
-      var match = /^(\w+)(\.\w+)?:(.+)/i.exec($scope.searchText);
-      if (match && !_(['tag', 'url', 'title']).contains(match[1])) {
-        window.location = 'https://' + match[1] + (match[2] || '.com') + '/?q=' + encodeURIComponent(match[3].trim());
-      } else {
-        var result = $scope.filteredBookmarks;
-        if (result.length > $scope.selectedIndex) {
-          window.location.href = $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].url;
-        }
-      }
-    } else if (e.which === 37) { // left arrow key
-      if ($scope.selectedIndex > 0) {
-        $scope.selectedIndex--;
-        updated = true;
-      }
-    } else if (e.which === 39) { // right arrow key
-      if (getAllCards().length > $scope.selectedIndex + 1) {
-        $scope.selectedIndex++;
-        updated = true;
-      }
-
-    } else if (e.which === 9 && e.shiftKey) { // shift+tab key
-      if ($scope.selectedIndex > 0) {
-        $scope.selectedIndex--;
-        updated = true;
-      }
-
-    } else if (e.which === 9) { // tab key
-      if (getAllCards().length > $scope.selectedIndex + 1) {
-        $scope.selectedIndex++;
-        updated = true;
-      }
-    } else if (e.which === 40) { // down key
-      if (getAllCards().length > $scope.selectedIndex + $scope.itemsPerRow) {
-        $scope.selectedIndex += $scope.itemsPerRow;
-        updated = true;
-      }
-    } else if (e.which === 38) { // up key
-      if ($scope.selectedIndex - $scope.itemsPerRow >= 0) {
-        $scope.selectedIndex -= $scope.itemsPerRow;
-        updated = true;
-      }
-    }
-    if (updated) { // right arrow, left arrow, down arrow, up arrow, tab, and shift+tab key pressed - select next element
-      $scope.$apply();
-      var cards = getAllCards();
-      var selectedElement = cards.get($scope.selectedIndex);
-      if (selectedElement) {
-        var rect = selectedElement.getBoundingClientRect(); // If element is not visible - scroll to it
-        if (!(rect.top >= 0 && rect.left >= 0 && rect.bottom <= $(window).height() && rect.right <= $(window).width())) {
-          $("body").stop().animate({
-            scrollTop: ($(cards.get($scope.selectedIndex)).offset().top - $(cards.get(0)).offset().top)
-          }, 500);
-        }
-      }
-      return false;
-    }
-  });
+    }});
 
   var loadBookmarks = function() {
 
@@ -338,6 +292,7 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location, 
   };
   $scope.clickBookmark = function(index) {
     $scope.selectedIndex = index;
+    scrollToSelected();
 
     var result = $scope.filteredBookmarks;
     if (result.length > $scope.selectedIndex) {
