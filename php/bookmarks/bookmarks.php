@@ -70,7 +70,7 @@ class bookmarksAccessor
       if(empty($a)) session_start();
       if($_SESSION["user_is_logged_in"])
       {
-        $this->addBookmark($_SESSION["user_id"], "", "", "", date_default_timezone_set("now"));
+        $this->addBookmark($_SESSION["user_id"], "", "", "", strtotime("now"));
       }else echo "fail";
     }
   }

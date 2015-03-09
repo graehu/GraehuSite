@@ -9,7 +9,7 @@ function(_, $) { 'use strict';
 /*
 * Application controller.
 */
-var MainController = function($scope, $routeParams, $filter, $modal, $location ,bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer, loginServer) {
+var MainController = function($scope, $routeParams, $filter, $modal, $location, $timeout,bookmarksStorage, appSettings, booleanSearchEngine, bookmarkServer, loginServer) {
 
   // Constant: default value of how many items we want to display on main page.
   var defaultTotalDisplayed = 20;
@@ -157,8 +157,6 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location ,
 
   var loadBookmarks = function() {
 
-
-
     bookmarkServer.GetTaggedBookmarks(function(bookmarks)
     {
       bookmarks.forEach(function (bookmark)
@@ -195,19 +193,6 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location ,
           );
           $routeParams.searchText = null;
       }
-
-      if($routeParams.bookmark)
-      {
-        $scope.filteredBookmarks.forEach(
-          function(bookmark, i)
-          {
-            if(bookmark.title === $routeParams.bookmark)
-            {
-              console.log("success! " + i);
-              $scope.clickBookmark(i);
-            }
-          });
-      }
       // ARG: improve in future
       // applyTagsAsString(bookmarks);
       if(!$scope.$$phase) {
@@ -215,6 +200,18 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location ,
       }
 
       countItemsPerRow();
+      /*if($routeParams.bookmark)
+      {
+        bookmarks.forEach(
+        function(bookmark, i)
+        {
+          if(bookmark.title === $routeParams.bookmark)
+          {  
+            console.log("success! " + bookmark.title + i + $routeParams.bookmark);
+            $scope.clickBookmark(i);
+          }
+        });
+      }*/
     }.bind(this));
   }.bind(this);
   loadBookmarks();
@@ -466,6 +463,7 @@ return [
   '$filter',
   '$modal',
   '$location',
+  '$timeout',
   'bookmarksStorage',
   'appSettings',
   'booleanSearchEngine',
