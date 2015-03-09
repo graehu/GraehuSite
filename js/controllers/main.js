@@ -298,6 +298,8 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location, 
     if (result.length > $scope.selectedIndex) {
       var bookmarkUrl = $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].url;
       var url = "";
+      _gaq.push(['_trackEvent', 'BookmarkClicked', 'title: ' +
+      $filter('orderBy')(result, $scope.currentOrder.value)[$scope.selectedIndex].title]);
 
       if(bookmarkUrl.substring(0, 8) == "partial:")
         url =  "partials/"+bookmarkUrl.slice(8);
@@ -307,6 +309,8 @@ var MainController = function($scope, $routeParams, $filter, $modal, $location, 
         url = "partials/unity.tpl.php?src="+bookmarkUrl.slice(6);
       else if(bookmarkUrl.substring(0, 8) == "youtube:")
         url = "partials/youtube.tpl.php?src="+bookmarkUrl.slice(8);
+
+
 
       if(url)
       {
