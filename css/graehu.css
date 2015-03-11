@@ -1174,11 +1174,10 @@ label.css-label {
 {
   display: inline;
   content: url(../images/graehu.png);
-  width: 64px;
-  height: 64px;
-  position: relative;
-  top: 0.25em;
-  left: 0.25em;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  margin-left: 0.25em;
 }
 .markdown-header
 {
