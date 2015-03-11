@@ -68,6 +68,7 @@ h4, h5, h6 {
     color: rgb(241, 129, 95);
     text-rendering: optimizeLegibility;
     line-height: 1;
+    letter-spacing: 0.4px;
     margin-top: 0;
     font-family: 'Roboto', sans-serif;
 }
@@ -202,6 +203,8 @@ code, tt {
     padding: 1px 3px;
     font-family: 'Nimbus Mono L', monospace, sans-serif;
     font-size: 0.85em;
+    letter-spacing: 0.25px;
+    line-height: 1em;
     white-space: pre;
     border: 1px solid #444;
     background: #232323;
@@ -1181,19 +1184,21 @@ label.css-label {
 {
   font-size: 3rem;
   line-height: 1.2em;
-  letter-spacing: -2px;
+  letter-spacing: 1px;
   text-indent: 3px;
-  font-weight: 300;
-  font-family: 'Inconsolata', monospace, sans-serif;
-  text-align: left;
+  font-weight: 400;
+  font-family: 'Roboto', monospace, sans-serif;
+  text-align: center;
 }
 .markdown-subtitle
 {
   margin-top: 0em;
+  text-align: center;
 }
 .markdown-body
 {
   background-color: rgba(33, 33, 33, 0.5);
+  border-radius: 8px;
   border: 1px #333 solid;
   font-family: 'Roboto', monospace, sans-serif;
   letter-spacing: -1.25px;

@@ -1,5 +1,5 @@
 <div class="markdown-header">
-  The Typings
+  The Typenings
   <div class="graehu-logo"></div>
 </div>
 <div class="markdown-subtitle">*clickty* *clack*</div>
@@ -13,5 +13,5 @@
   </div>
 </div>
 <div class="markdown-footer">
-  The Typings © Graham Hughes 2015
+  The Typenings © Graham Hughes 2015
 </div>
